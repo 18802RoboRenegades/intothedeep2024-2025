@@ -38,6 +38,7 @@ import android.graphics.Paint;
 import com.acmerobotics.roadrunner.Pose2d;
 import com.acmerobotics.roadrunner.ftc.Actions;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
@@ -62,6 +63,8 @@ import org.firstinspires.ftc.teamcode.Libs.RRMechOps;
  */
 //@Autonomous(name = "RR", group = "00-Autonomous", preselectTeleOp = "FTC Wires TeleOp")
 @Autonomous(name = "Auto - No Cycles", group = "Comp")
+@Disabled
+
 public class RRBaseAuto extends LinearOpMode {
 
     public static String TEAM_NAME = "Robo Renegades";

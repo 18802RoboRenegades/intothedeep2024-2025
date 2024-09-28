@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -9,7 +10,6 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
 import org.firstinspires.ftc.teamcode.Libs.DriveMecanumFTCLib;
-import org.tensorflow.lite.task.core.TaskJniUtils;
 
 
 /**
@@ -34,6 +34,8 @@ notes:
 The armPosition for the high level of the team shipping hub is -0.588.
 
 **/
+
+@Disabled
 
 public class SingleDrive extends LinearOpMode {
 

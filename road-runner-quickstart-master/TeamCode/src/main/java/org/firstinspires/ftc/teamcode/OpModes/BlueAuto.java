@@ -3,12 +3,14 @@ package org.firstinspires.ftc.teamcode.OpModes;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Libs.DriveMecanumFTCLib;
 import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
 
 @Autonomous(name = "Blue (left)", group = "Competition")
+@Disabled
 
 public class BlueAuto extends LinearOpMode {
 

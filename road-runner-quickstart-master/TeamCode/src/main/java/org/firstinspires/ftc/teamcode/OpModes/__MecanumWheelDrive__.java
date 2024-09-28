@@ -33,7 +33,7 @@ import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
     --TO BE DETERMINED--
 
  **/
-@TeleOp(name="__MecanumWheelDrive__", group="LinearOpMode")
+@TeleOp(name="Teleop - Tinkerfest", group="LinearOpMode")
 
  /**
 
@@ -83,7 +83,7 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             turn = this.gamepad1.right_stick_x * TurnSpeed;
             strafe = this.gamepad1.left_stick_x * StrafeSpeed;
 
-           drive.StrafeDrive(stickDrive, turn, strafe);
+           drive.StrafeDrive(stickDrive, strafe, turn);
 
 
             if (gamepad1.left_bumper) {
