@@ -1,12 +1,9 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.arcrobotics.ftclib.hardware.RevIMU;
-import com.arcrobotics.ftclib.hardware.motors.Motor;
-import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -59,6 +56,10 @@ public class HWProfile2 {
     public DcMotorEx motorLR;
     public DcMotorEx motorRF;
     public DcMotorEx motorRR;
+    public DcMotorEx motorArmAngle;
+    public DcMotorEx motorArmLength;
+    public Servo servoIntakeAngle;
+    public CRServo servoIntake;
 
 //    public MecanumDrive mecanum = null;
 
@@ -104,6 +105,28 @@ public class HWProfile2 {
         motorRR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         motorRR.setPower(0);
         motorRR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        motorArmAngle = ahwMap.get(DcMotorEx.class,"motorArmAngle");
+        motorArmAngle.setDirection(DcMotor.Direction.FORWARD);
+        motorArmAngle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorArmAngle.setTargetPosition(0);
+        motorArmAngle.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        motorArmAngle.setPower(0);
+        motorArmAngle.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        motorArmLength = ahwMap.get(DcMotorEx.class,"motorArmLength");
+        motorArmLength.setDirection(DcMotor.Direction.FORWARD);
+        motorArmLength.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motorArmLength.setTargetPosition(0);
+        motorArmLength.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        motorArmLength.setPower(0);
+        motorArmLength.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
+        servoIntakeAngle = ahwMap.get(Servo.class,"servoIntakeAngle");
+
+        servoIntake =ahwMap.get(CRServo.class,"servoIntake");
+
+
 
         //drivebase init
 //        mecanum = new MecanumDrive(motorLF, motorRF, motorLR, motorRR);

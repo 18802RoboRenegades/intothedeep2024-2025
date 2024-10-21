@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 
-import com.arcrobotics.ftclib.hardware.motors.Motor;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -68,25 +66,31 @@ public class __MecanumWheelDrive__ extends LinearOpMode
 //        drive.haltandresetencoders();
         //runtime.reset();
 
+
         // run until the end of the match (driver presses STOP)
         double stickDrive = 0;
         double turn = 0;
         double strafe = 0;
         double leftPower = 0;
         double rightPower = 0;
-//        double armUpDown;
+        int armControl = 0;
+        int armAngle = 0;
+        double
+                intakeAngle = 0;
+
+        //        double armUpDown;
         int armPosition = 0;
         int hangPosition = 0;
 
         while (opModeIsActive()) {
             stickDrive = this.gamepad1.left_stick_y * DriveSpeed;
-            turn = this.gamepad1.right_stick_x * TurnSpeed;
-            strafe = this.gamepad1.left_stick_x * StrafeSpeed;
+            turn = -this.gamepad1.right_stick_x * TurnSpeed;
+            strafe = -this.gamepad1.left_stick_x * StrafeSpeed;
 
            drive.StrafeDrive(stickDrive, strafe, turn);
 
 
-            if (gamepad1.left_bumper) {
+            if (gamepad1.a) {
                 DriveSpeed = 1;
                 StrafeSpeed = 1;
                 TurnSpeed = 1;
@@ -95,6 +99,47 @@ public class __MecanumWheelDrive__ extends LinearOpMode
                 StrafeSpeed = 0.5;
                 TurnSpeed = 0.5;
             }
+
+
+//            if (gamepad1.a){
+//                armAngle = robot.ARM_ANGLE_SCORE;
+//            }
+
+            if(gamepad2.left_bumper) {
+                armAngle = armAngle + 1;
+            } else if(gamepad2.right_bumper) {
+                armAngle = armAngle - 1;
+            }
+
+            if(gamepad2.right_trigger > 0) {
+                armControl = armControl + 1;
+            } else if(gamepad2.left_trigger > 0){
+                armControl = armControl - 1;
+            }
+
+            if(gamepad2.a) {
+                // intake on
+                robot.servoIntake.setPower(1);
+            } else if(gamepad2.b){
+                // intake off
+                robot.servoIntake.setPower(0);
+            } else {
+                // turn off the servo
+                robot.servoIntake.setPower(0.5);
+            }
+
+            if(gamepad2.dpad_down) {
+                intakeAngle = intakeAngle + 0.1;
+            } else if (gamepad2.dpad_up) {
+                intakeAngle = intakeAngle - 0.1;
+            }
+
+            // apply settings to motors and servos
+            robot.servoIntakeAngle.setPosition(intakeAngle);
+            robot.motorArmAngle.setPower(1);
+            robot.motorArmLength.setPower(1);
+            robot.motorArmAngle.setTargetPosition(armAngle);
+            robot.motorArmLength.setTargetPosition(armControl);
 
             telemetry.addData("Status", "Running");
             telemetry.addData("Left Power", leftPower);
