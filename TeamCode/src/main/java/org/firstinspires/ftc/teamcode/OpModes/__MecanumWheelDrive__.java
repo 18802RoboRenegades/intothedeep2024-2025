@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
 import com.qualcomm.robotcore.hardware.Servo;
+import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Libs.DriveMecanumFTCLib;
 import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
@@ -53,6 +54,9 @@ public class __MecanumWheelDrive__ extends LinearOpMode
     private double DriveSpeed = 1;
     private double TurnSpeed = 1;
     private double StrafeSpeed = 1;
+    private boolean armAngleDrop = false;
+    private ElapsedTime dropTime = new ElapsedTime();
+    private ElapsedTime buttonPressTime = new ElapsedTime();
 
     private boolean IsOverrideActivated = false;
 
@@ -75,12 +79,14 @@ public class __MecanumWheelDrive__ extends LinearOpMode
         double rightPower = 0;
         int armControl = 0;
         int armAngle = 0;
-        double
-                intakeAngle = 0;
+        double armAnglePower = 1;
+        double intakeAngle = 0.5;
 
         //        double armUpDown;
         int armPosition = 0;
         int hangPosition = 0;
+        dropTime.reset();
+        buttonPressTime.reset();
 
         while (opModeIsActive()) {
             stickDrive = this.gamepad1.left_stick_y * DriveSpeed;
@@ -106,41 +112,72 @@ public class __MecanumWheelDrive__ extends LinearOpMode
 //            }
 
             if(gamepad2.left_bumper) {
-                armAngle = armAngle + 1;
+                armAngle = armAngle + 6;
+                if(armAngle > 0) armAngle = 0;
+                armAnglePower = 1;
             } else if(gamepad2.right_bumper) {
-                armAngle = armAngle - 1;
+                armAngle = armAngle - 6;
+                armAnglePower = 0.25;
+                if (armAngle < -1100) armAngle = -1100;
             }
 
             if(gamepad2.right_trigger > 0) {
-                armControl = armControl + 1;
+                armControl = armControl + 20;
+                if(armControl > 4900) armControl = 4900;
             } else if(gamepad2.left_trigger > 0){
-                armControl = armControl - 1;
+                armControl = armControl - 20;
+                if(armControl < 0 ) armControl = 0;
             }
 
+            if(gamepad2.y){
+                armAngleDrop = false;
+                armAnglePower = 1;
+                armAngle = -1100;
+                armControl = 4900;
+            } else if (gamepad2.x){
+                armAnglePower = 0.25;
+                armAngleDrop = true;
+                dropTime.reset();
+                armControl = 0;
+            }
+
+            if(armAngleDrop){
+                if(dropTime.time() > 1.5){
+                    armAngle = 0;
+                    armAngleDrop = false;
+                }
+            }
             if(gamepad2.a) {
                 // intake on
-                robot.servoIntake.setPower(1);
+                robot.servoIntake.setPower(-1);
             } else if(gamepad2.b){
-                // intake off
-                robot.servoIntake.setPower(0);
+                // intake reverse
+                robot.servoIntake.setPower(1);
             } else {
                 // turn off the servo
-                robot.servoIntake.setPower(0.5);
+                robot.servoIntake.setPower(0);
             }
 
-            if(gamepad2.dpad_down) {
-                intakeAngle = intakeAngle + 0.1;
-            } else if (gamepad2.dpad_up) {
-                intakeAngle = intakeAngle - 0.1;
+            if(gamepad2.dpad_up && buttonPressTime.time() > 0.1) {
+                buttonPressTime.reset();
+                intakeAngle = intakeAngle + 0.03;
+                if(intakeAngle > 1) intakeAngle = 1;
+            } else if (gamepad2.dpad_down && buttonPressTime.time() > 0.1) {
+                buttonPressTime.reset();
+                intakeAngle = intakeAngle - 0.03;
+                if(intakeAngle < 0) intakeAngle = 0;
             }
 
             // apply settings to motors and servos
             robot.servoIntakeAngle.setPosition(intakeAngle);
-            robot.motorArmAngle.setPower(1);
+            robot.motorArmAngle.setPower(armAnglePower);
             robot.motorArmLength.setPower(1);
             robot.motorArmAngle.setTargetPosition(armAngle);
             robot.motorArmLength.setTargetPosition(armControl);
 
+            telemetry.addData("armControl = ", armControl);
+            telemetry.addData("armAngle = ", armAngle);
+            telemetry.addData("servoIntakeAngle = ", intakeAngle);
             telemetry.addData("Status", "Running");
             telemetry.addData("Left Power", leftPower);
             telemetry.addData("Right Power", rightPower);
