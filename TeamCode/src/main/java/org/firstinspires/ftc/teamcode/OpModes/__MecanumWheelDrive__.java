@@ -91,12 +91,12 @@ public class __MecanumWheelDrive__ extends LinearOpMode
         while (opModeIsActive()) {
             stickDrive = this.gamepad1.left_stick_y * DriveSpeed;
             turn = -this.gamepad1.right_stick_x * TurnSpeed;
-            strafe = -this.gamepad1.left_stick_x * StrafeSpeed;
+            strafe = -this.gamepad1.left_stick_x  * StrafeSpeed;
 
            drive.StrafeDrive(stickDrive, strafe, turn);
 
 
-            if (gamepad1.a) {
+            if (gamepad1.left_stick_button) {
                 DriveSpeed = 1;
                 StrafeSpeed = 1;
                 TurnSpeed = 1;
@@ -107,34 +107,33 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             }
 
 
-//            if (gamepad1.a){
-//                armAngle = robot.ARM_ANGLE_SCORE;
-//            }
 
-            if(gamepad2.left_bumper) {
-                armAngle = armAngle + 6;
+//            angle of the arm
+            if(gamepad1.left_bumper || gamepad2.left_bumper) {
+                armAngle = armAngle + 2;
                 if(armAngle > 0) armAngle = 0;
-                armAnglePower = 1;
-            } else if(gamepad2.right_bumper) {
-                armAngle = armAngle - 6;
+                armAnglePower = 0.75;
+            } else if(gamepad1.right_bumper || gamepad2.right_bumper) {
+                armAngle = armAngle - 2;
                 armAnglePower = 0.25;
                 if (armAngle < -1100) armAngle = -1100;
             }
-
-            if(gamepad2.right_trigger > 0) {
-                armControl = armControl + 20;
+//          length of the arm
+            if((gamepad1.right_trigger > 0) || (gamepad2.right_trigger > 0)) {
+                armControl = armControl + 10;
                 if(armControl > 4900) armControl = 4900;
-            } else if(gamepad2.left_trigger > 0){
-                armControl = armControl - 20;
+            } else if(gamepad1.left_trigger > 0){
+                armControl = armControl - 10;
                 if(armControl < 0 ) armControl = 0;
             }
 
-            if(gamepad2.y){
+            // dont mess with unless you know what you are doing
+            if(gamepad1.y || gamepad2.y){
                 armAngleDrop = false;
                 armAnglePower = 1;
                 armAngle = -1100;
                 armControl = 4900;
-            } else if (gamepad2.x){
+            } else if (gamepad1.x || gamepad2.y){
                 armAnglePower = 0.25;
                 armAngleDrop = true;
                 dropTime.reset();
@@ -147,10 +146,10 @@ public class __MecanumWheelDrive__ extends LinearOpMode
                     armAngleDrop = false;
                 }
             }
-            if(gamepad2.a) {
+            if(gamepad1.a) {
                 // intake on
                 robot.servoIntake.setPower(-1);
-            } else if(gamepad2.b){
+            } else if(gamepad1.b){
                 // intake reverse
                 robot.servoIntake.setPower(1);
             } else {
@@ -158,11 +157,12 @@ public class __MecanumWheelDrive__ extends LinearOpMode
                 robot.servoIntake.setPower(0);
             }
 
-            if(gamepad2.dpad_up && buttonPressTime.time() > 0.1) {
+            // angle of intake
+            if(gamepad1.dpad_up && buttonPressTime.time() > 0.1) {
                 buttonPressTime.reset();
                 intakeAngle = intakeAngle + 0.03;
                 if(intakeAngle > 1) intakeAngle = 1;
-            } else if (gamepad2.dpad_down && buttonPressTime.time() > 0.1) {
+            } else if (gamepad1.dpad_down && buttonPressTime.time() > 0.1) {
                 buttonPressTime.reset();
                 intakeAngle = intakeAngle - 0.03;
                 if(intakeAngle < 0) intakeAngle = 0;
