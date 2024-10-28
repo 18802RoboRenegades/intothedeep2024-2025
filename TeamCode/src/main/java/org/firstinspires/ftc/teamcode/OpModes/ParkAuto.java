@@ -105,14 +105,35 @@ public class ParkAuto extends LinearOpMode {
     public void runOpMode() {
 
         robot.init(hardwareMap);
-        telemetry.addData("Status:", "Initialized");
-        telemetry.update();
+
+        robot.motorLR.setTargetPosition(0);
+        robot.motorLF.setTargetPosition(0);
+        robot.motorRR.setTargetPosition(0);
+        robot.motorRF.setTargetPosition(0);
+        robot.motorLF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.motorLR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.motorRF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.motorRR.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        robot.motorLF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorLR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorRF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        robot.motorRR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
         // Send telemetry message to indicate successful Encoder reset
         telemetry.addData("Starting at",  "%7d :%7d",
-                          robot.motorLF.getCurrentPosition(),
-                          robot.motorRF.getCurrentPosition());
+                robot.motorLF.getCurrentPosition(),
+                robot.motorRF.getCurrentPosition());
         telemetry.update();
+
+        while(!opModeIsActive()) {
+            telemetry.addData("right Front Motor = ", robot.motorRF.getCurrentPosition());
+            telemetry.addData("right Rear Motor = ", robot.motorRR.getCurrentPosition());
+            telemetry.addData("left Front Motor = ", robot.motorLF.getCurrentPosition());
+            telemetry.addData("left Rear Motor = ", robot.motorLR.getCurrentPosition());
+            telemetry.addData("Status:", "Initialized");
+            telemetry.update();
+        }
+
 
         // Wait for the game to start (driver presses START)
         waitForStart();
@@ -150,10 +171,10 @@ public class ParkAuto extends LinearOpMode {
             robot.motorRF.setTargetPosition(newRightTarget);
 
             // Turn On RUN_TO_POSITION
-            robot.motorLF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.motorLR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.motorRF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-            robot.motorRR.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+            robot.motorLR.setTargetPosition(newLeftTarget);
+            robot.motorLF.setTargetPosition(newLeftTarget);
+            robot.motorRR.setTargetPosition(newRightTarget);
+            robot.motorRF.setTargetPosition(newRightTarget);
 
             // reset the timeout time and start motion.
             runtime.reset();
@@ -170,7 +191,7 @@ public class ParkAuto extends LinearOpMode {
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
                    (runtime.seconds() < timeoutS) &&
-                   (robot.motorLF.isBusy() && robot.motorRF.isBusy())) {
+                   (robot.motorLR.isBusy() && robot.motorRR.isBusy())) {
 
                 // Display it for the driver.
                 telemetry.addData("Running to",  " %7d :%7d", newLeftTarget,  newRightTarget);

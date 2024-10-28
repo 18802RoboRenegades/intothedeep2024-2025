@@ -118,12 +118,12 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             } else if(gamepad1.right_bumper || gamepad2.right_bumper) {
                 armAngle = armAngle - 2;
                 armAnglePower = 0.25;
-                if (armAngle < -1500) armAngle = -1500;
+                if (armAngle < -1310) armAngle = -1310;
             }
 //          length of the arm
             if((gamepad1.right_trigger > 0) || (gamepad2.right_trigger > 0)) {
                 armControl = armControl + 10;
-                if(armControl > 4900) armControl = 4900;
+                if(armControl > 4190) armControl = 4190;
             } else if(gamepad1.left_trigger > 0){
                 armControl = armControl - 10;
                 if(armControl < 0 ) armControl = 0;
@@ -132,9 +132,9 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             // dont mess with unless you know what you are doing
             if(gamepad1.y || gamepad2.y){
                 armAngleDrop = false;
-                armAnglePower = 1;
-                armAngle = -1100;
-                armControl = 4900;
+                armAnglePower = 0.5;
+                armAngle = -1310;
+                armControl = 4190;
             } else if (gamepad1.x || gamepad2.y){
                 armAnglePower = 0.25;
                 armAngleDrop = true;
@@ -160,14 +160,14 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             }
 
             // angle of intake
-            if(gamepad1.dpad_up || gamepad2.dpad_up && buttonPressTime.time() > 0.1) {
-                buttonPressTime.reset();
-                intakeAngle = intakeAngle + 0.03;
-                if(intakeAngle > 1) intakeAngle = 1;
-            } else if (gamepad1.dpad_down || gamepad2.dpad_down && buttonPressTime.time() > 0.1) {
+            if((gamepad1.dpad_up || gamepad2.dpad_up) && buttonPressTime.time() > 0.1) {
                 buttonPressTime.reset();
                 intakeAngle = intakeAngle - 0.03;
                 if(intakeAngle < 0) intakeAngle = 0;
+            } else if ((gamepad1.dpad_down || gamepad2.dpad_down) && buttonPressTime.time() > 0.1) {
+                buttonPressTime.reset();
+                intakeAngle = intakeAngle + 0.03;
+                if(intakeAngle > 1) intakeAngle = 1;
             }
 
             // apply settings to motors and servos
