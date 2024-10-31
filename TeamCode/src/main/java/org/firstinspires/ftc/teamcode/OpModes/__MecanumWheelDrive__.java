@@ -81,6 +81,7 @@ public class __MecanumWheelDrive__ extends LinearOpMode
         int armAngle = 0;
         double armAnglePower = 1;
         double intakeAngle = 0.5;
+        double intake = 0;
 
         //        double armUpDown;
         int armPosition = 0;
@@ -150,13 +151,15 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             }
             if(gamepad1.a || gamepad2.a) {
                 // intake on
-                robot.servoIntake.setPower(-1);
+                //robot.servoIntake.setPower(-1);
+                intake = intake + 0.05;
             } else if(gamepad1.b || gamepad2.b){
                 // intake reverse
-                robot.servoIntake.setPower(1);
+               // robot.servoIntake.setPower(1);
+                intake = intake - 0.05;
             } else {
                 // turn off the servo
-                robot.servoIntake.setPower(0);
+               // robot.servoIntake.setPower(0);
             }
 
             // angle of intake
@@ -176,6 +179,7 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             robot.motorArmLength.setPower(1);
             robot.motorArmAngle.setTargetPosition(armAngle);
             robot.motorArmLength.setTargetPosition(armControl);
+            robot.servoIntake.setPosition(intake);
 
             telemetry.addData("armControl = ", armControl);
             telemetry.addData("armAngle = ", armAngle);

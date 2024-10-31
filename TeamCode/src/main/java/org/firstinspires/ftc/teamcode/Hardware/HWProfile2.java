@@ -59,7 +59,8 @@ public class HWProfile2 {
     public DcMotorEx motorArmAngle;
     public DcMotorEx motorArmLength;
     public Servo servoIntakeAngle;
-    public CRServo servoIntake;
+    //public CRServo servoIntake;
+    public Servo servoIntake;
 
 //    public MecanumDrive mecanum = null;
 
@@ -124,7 +125,7 @@ public class HWProfile2 {
 
         servoIntakeAngle = ahwMap.get(Servo.class,"servoIntakeAngle");
 
-        servoIntake =ahwMap.get(CRServo.class,"servoIntake");
+        servoIntake =ahwMap.get(Servo.class,"servoIntake");
 
 
 
