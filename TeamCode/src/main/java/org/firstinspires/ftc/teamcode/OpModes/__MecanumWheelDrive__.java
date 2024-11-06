@@ -32,7 +32,7 @@ import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
     --TO BE DETERMINED--
 
  **/
-@TeleOp(name="Teleop - Tinkerfest", group="LinearOpMode")
+@TeleOp(name="TeleOp", group="Competition")
 
  /**
 
@@ -66,7 +66,6 @@ public class __MecanumWheelDrive__ extends LinearOpMode
         telemetry.addData("Status:", "Initialized");
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)
-        waitForStart();
 //        drive.haltandresetencoders();
         //runtime.reset();
 
@@ -80,14 +79,21 @@ public class __MecanumWheelDrive__ extends LinearOpMode
         int armControl = 0;
         int armAngle = 0;
         double armAnglePower = 1;
-        double intakeAngle = 0.5;
+        double intakeAngle = 0;
         double intake = 0;
+        double aPressCount = 1;
+        boolean clawOpen = true;
+        ElapsedTime aPressTime = new ElapsedTime();
 
         //        double armUpDown;
         int armPosition = 0;
         int hangPosition = 0;
         dropTime.reset();
+
+        waitForStart();
         buttonPressTime.reset();
+        aPressTime.reset();
+
 
         // driving, turning, and strafing
         while (opModeIsActive()) {
@@ -136,12 +142,14 @@ public class __MecanumWheelDrive__ extends LinearOpMode
                 armAnglePower = 0.5;
                 armAngle = -1310;
                 armControl = 4190;
-            } else if (gamepad1.x || gamepad2.y){
+            } else if (gamepad1.x || gamepad2.x){
                 armAnglePower = 0.25;
                 armAngleDrop = true;
                 dropTime.reset();
                 armControl = 0;
             }
+
+
 
             if(armAngleDrop){
                 if(dropTime.time() > 1.5){
@@ -149,28 +157,39 @@ public class __MecanumWheelDrive__ extends LinearOpMode
                     armAngleDrop = false;
                 }
             }
-            if(gamepad1.a || gamepad2.a) {
-                // intake on
-                //robot.servoIntake.setPower(-1);
-                intake = intake + 0.05;
-            } else if(gamepad1.b || gamepad2.b){
-                // intake reverse
-               // robot.servoIntake.setPower(1);
-                intake = intake - 0.05;
-            } else {
-                // turn off the servo
-               // robot.servoIntake.setPower(0);
+            if((gamepad1.a || gamepad2.a) && (aPressTime.time() > 0.2)) {
+                aPressCount = aPressCount + 1;
+                aPressTime.reset();
             }
+
+
+            if(aPressCount > 2){
+                aPressCount = 1;
+            }
+
+            //opens and closes claw
+            if(aPressCount == 1){
+                robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
+            } else if (aPressCount == 2) {
+                robot.servoIntake.setPosition(robot.INTAKE_CLAW_CLOSE);
+            }
+
+            if(aPressTime.time() > 0.200 && (aPressCount == 2)){
+                robot.motorArmAngle.setPower(0.5);
+                armAngle = -1310;
+            }
+
+            //resets intake angle
+            if(intakeAngle > 1) intakeAngle = 1;
+            if(intakeAngle < 0) intakeAngle = 0;
 
             // angle of intake
             if((gamepad1.dpad_up || gamepad2.dpad_up) && buttonPressTime.time() > 0.1) {
                 buttonPressTime.reset();
                 intakeAngle = intakeAngle - 0.03;
-                if(intakeAngle < 0) intakeAngle = 0;
             } else if ((gamepad1.dpad_down || gamepad2.dpad_down) && buttonPressTime.time() > 0.1) {
                 buttonPressTime.reset();
                 intakeAngle = intakeAngle + 0.03;
-                if(intakeAngle > 1) intakeAngle = 1;
             }
 
             // apply settings to motors and servos
@@ -179,7 +198,6 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             robot.motorArmLength.setPower(1);
             robot.motorArmAngle.setTargetPosition(armAngle);
             robot.motorArmLength.setTargetPosition(armControl);
-            robot.servoIntake.setPosition(intake);
 
             telemetry.addData("armControl = ", armControl);
             telemetry.addData("armAngle = ", armAngle);

@@ -35,6 +35,9 @@ public class HWProfile2 {
 
     public double MIN_STRAFE_POWER = 0.35;
 
+    public final double INTAKE_CLAW_OPEN = 0.9;
+    public final double INTAKE_CLAW_CLOSE = 0.7    ;
+
     public final double PID_Kp = 0.08;
     public final double PID_Ki = 0.01;
     public final double PID_Kd = 0.000001;
