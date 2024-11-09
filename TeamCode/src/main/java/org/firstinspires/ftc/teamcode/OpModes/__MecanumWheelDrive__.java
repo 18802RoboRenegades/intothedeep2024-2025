@@ -115,9 +115,7 @@ public class __MecanumWheelDrive__ extends LinearOpMode
                 TurnSpeed = 0.5;
             }
 
-
-
-//            angle of the arm
+            // angle of the arm
             if(gamepad1.left_bumper || gamepad2.left_bumper) {
                 armAngle = armAngle + 2;
                 if(armAngle > 0) armAngle = 0;
@@ -127,7 +125,8 @@ public class __MecanumWheelDrive__ extends LinearOpMode
                 armAnglePower = 0.25;
                 if (armAngle < -1310) armAngle = -1310;
             }
-//          length of the arm
+
+            // arm extension
             if((gamepad1.right_trigger > 0) || (gamepad2.right_trigger > 0)) {
                 armControl = armControl + 10;
                 if(armControl > 4190) armControl = 4190;
@@ -149,19 +148,17 @@ public class __MecanumWheelDrive__ extends LinearOpMode
                 armControl = 0;
             }
 
-
-
             if(armAngleDrop){
                 if(dropTime.time() > 1.5){
                     armAngle = 0;
                     armAngleDrop = false;
                 }
             }
+
             if((gamepad1.a || gamepad2.a) && (aPressTime.time() > 0.2)) {
                 aPressCount = aPressCount + 1;
                 aPressTime.reset();
             }
-
 
             if(aPressCount > 2){
                 aPressCount = 1;
