@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
+import org.firstinspires.ftc.teamcode.MecanumDrive;
+
 
 public class HWProfile2 {
 
@@ -28,25 +30,29 @@ public class HWProfile2 {
 
     public final double STRAFE_FACTOR = 0.9;
 
-    public final double RIGHT_DRIVE_CORRECTION_MULTIPLIER = 1.4;
-    public final double LEFT_DRIVE_CORRECTION_MULTIPLIER = 1.2;
 
     public final double MAX_DRIVING_POWER = 1;
 
     public double MIN_STRAFE_POWER = 0.35;
 
     public final double INTAKE_CLAW_OPEN = 0.9;
-    public final double INTAKE_CLAW_CLOSE = 0.7    ;
+    public final double INTAKE_CLAW_CLOSE = 0.7;
 
-    public final double PID_Kp = 0.08;
-    public final double PID_Ki = 0.01;
-    public final double PID_Kd = 0.000001;
-    public final double PID_MIN_SPEED = 0.05;
-    public final double PID_ROTATE_ERROR = 1;
+    // Intake angle servo constants
+    public final double INTAKE_ANGLE_GRAB_SPECIMEN = 0.97;
+    public final double INTAKE_ANGLE_GRAB_SAMPLE = 0.5;
+    public final double INTAKE_ANGLE_SCORE_SPECIMEN = 0.5;
+    public final double INTAKE_ANGLE_SCORE_SAMPLE = 0.5;
 
-    public final double DRIVE_Kp = 0.05;
-    public final double DRIVE_Ki = 0.01;
-    public final double DRIVE_Kd = 0.31;
+    // Arm Angle motor constants
+    public final int ARM_ANGLE_GRAB_SPECIMEN = 0;
+    public final int ARM_ANGLE_SCORE_SPECIMEN = -1000;
+    public final int ARM_ANGLE_SCORE_HIGH_BASKET = -1310;
+
+    public final int ARM_LENGTH_RESET = 0;
+    public final int ARM_LENGTH_SAFE = 400;
+    public final int ARM_LENGTH_SCORE_SPECIMEN = 400;
+    public final int ARM_LENGTH_SCORE_HIGH_BASKET = 4190;
 
     /*
      * Hardware devices
@@ -108,6 +114,7 @@ public class HWProfile2 {
         motorRR.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
         motorRR.setPower(0);
         motorRR.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+
 
         motorArmAngle = ahwMap.get(DcMotorEx.class,"motorArmAngle");
         motorArmAngle.setDirection(DcMotor.Direction.FORWARD);

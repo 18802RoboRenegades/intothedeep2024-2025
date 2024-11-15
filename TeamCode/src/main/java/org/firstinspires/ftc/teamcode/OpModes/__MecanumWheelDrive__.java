@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.Libs.DriveMecanumFTCLib;
 import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
 
 
- /**
+/**
  #########################################
 
                                 CONTROLS MAPPING -- TBD
@@ -58,7 +58,9 @@ public class __MecanumWheelDrive__ extends LinearOpMode
     private ElapsedTime dropTime = new ElapsedTime();
     private ElapsedTime buttonPressTime = new ElapsedTime();
 
-    private boolean IsOverrideActivated = false;
+    public double intakeAngle = 0;
+    public int armAngle = robot.ARM_ANGLE_GRAB_SPECIMEN;
+    public int armControl = 0;
 
     public void runOpMode()
     {
@@ -76,11 +78,9 @@ public class __MecanumWheelDrive__ extends LinearOpMode
         double strafe = 0;
         double leftPower = 0;
         double rightPower = 0;
-        int armControl = 0;
-        int armAngle = 0;
         double armAnglePower = 1;
-        double intakeAngle = 0;
-        double intake = 0;
+        double intakeAngle = 1
+                ;
         double aPressCount = 1;
         boolean clawOpen = true;
         ElapsedTime aPressTime = new ElapsedTime();
@@ -94,7 +94,6 @@ public class __MecanumWheelDrive__ extends LinearOpMode
         buttonPressTime.reset();
         aPressTime.reset();
 
-
         // driving, turning, and strafing
         while (opModeIsActive()) {
             stickDrive = this.gamepad1.left_stick_y * DriveSpeed;
@@ -102,7 +101,6 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             strafe = -this.gamepad1.left_stick_x  * StrafeSpeed;
 
            drive.StrafeDrive(stickDrive, strafe, turn);
-
 
            // boost
             if (gamepad1.left_stick_button) {
@@ -115,8 +113,6 @@ public class __MecanumWheelDrive__ extends LinearOpMode
                 TurnSpeed = 0.5;
             }
 
-
-
 //            angle of the arm
             if(gamepad1.left_bumper || gamepad2.left_bumper) {
                 armAngle = armAngle + 2;
@@ -125,43 +121,44 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             } else if(gamepad1.right_bumper || gamepad2.right_bumper) {
                 armAngle = armAngle - 2;
                 armAnglePower = 0.25;
-                if (armAngle < -1310) armAngle = -1310;
+                if (armAngle < robot.ARM_ANGLE_SCORE_HIGH_BASKET) armAngle = robot.ARM_ANGLE_SCORE_HIGH_BASKET;
             }
 //          length of the arm
             if((gamepad1.right_trigger > 0) || (gamepad2.right_trigger > 0)) {
                 armControl = armControl + 10;
-                if(armControl > 4190) armControl = 4190;
+                if(armControl > robot.ARM_LENGTH_SCORE_HIGH_BASKET) armControl = robot.ARM_LENGTH_SCORE_HIGH_BASKET;
             } else if(gamepad1.left_trigger > 0){
                 armControl = armControl - 10;
                 if(armControl < 0 ) armControl = 0;
             }
 
+            //pick up sample
+            if(gamepad1.dpad_right){
+                intakeAngle = robot.INTAKE_ANGLE_GRAB_SAMPLE;
+            }
+            //score specimen
+            if(gamepad1.dpad_left){
+                armAngle = robot.ARM_ANGLE_SCORE_SPECIMEN;
+                intakeAngle = robot.INTAKE_ANGLE_SCORE_SPECIMEN;
+                armControl = robot.ARM_LENGTH_SCORE_SPECIMEN;
+            }
             // dont mess with unless you know what you are doing
             if(gamepad1.y || gamepad2.y){
                 armAngleDrop = false;
                 armAnglePower = 0.5;
-                armAngle = -1310;
-                armControl = 4190;
+                armAngle = robot.ARM_ANGLE_SCORE_HIGH_BASKET;
+                armControl = robot.ARM_LENGTH_SCORE_HIGH_BASKET;
             } else if (gamepad1.x || gamepad2.x){
+                grabSpecimen();
                 armAnglePower = 0.25;
                 armAngleDrop = true;
                 dropTime.reset();
-                armControl = 0;
             }
 
-
-
-            if(armAngleDrop){
-                if(dropTime.time() > 1.5){
-                    armAngle = 0;
-                    armAngleDrop = false;
-                }
-            }
             if((gamepad1.a || gamepad2.a) && (aPressTime.time() > 0.2)) {
                 aPressCount = aPressCount + 1;
                 aPressTime.reset();
             }
-
 
             if(aPressCount > 2){
                 aPressCount = 1;
@@ -172,11 +169,6 @@ public class __MecanumWheelDrive__ extends LinearOpMode
                 robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
             } else if (aPressCount == 2) {
                 robot.servoIntake.setPosition(robot.INTAKE_CLAW_CLOSE);
-            }
-
-            if(aPressTime.time() > 0.200 && (aPressCount == 2)){
-                robot.motorArmAngle.setPower(0.5);
-                armAngle = -1310;
             }
 
             //resets intake angle
@@ -209,4 +201,13 @@ public class __MecanumWheelDrive__ extends LinearOpMode
 
         }
     }
+
+    private void grabSpecimen(){
+        this.intakeAngle = robot.INTAKE_ANGLE_GRAB_SPECIMEN;
+        this.armAngle = robot.ARM_ANGLE_GRAB_SPECIMEN;
+        robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
+        this.armControl = robot.ARM_LENGTH_RESET;
+
+    }
+
 }

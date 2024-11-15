@@ -30,7 +30,6 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -66,8 +65,8 @@ import org.firstinspires.ftc.teamcode.Libs.DriveMecanumFTCLib;
  * Remove or comment out the @Disabled line to add this OpMode to the Driver Station OpMode list
  */
 
-@Autonomous(name="Park Auto", group="Robot")
-public class ParkAuto extends LinearOpMode {
+@Autonomous(name="Sample Auto", group="Robot")
+public class SampleAuto extends LinearOpMode {
 
     /* Declare OpMode members. */
     private final static HWProfile2 robot = new HWProfile2();
@@ -99,7 +98,7 @@ public class ParkAuto extends LinearOpMode {
     static final double     WHEEL_DIAMETER_INCHES   = 4.0 ;     // For figuring circumference
     static final double     COUNTS_PER_INCH         = (COUNTS_PER_MOTOR_REV * DRIVE_GEAR_REDUCTION) /
                                                       (WHEEL_DIAMETER_INCHES * 3.1415);
-    static final double     DRIVE_SPEED             = 0.4;
+    static final double     DRIVE_SPEED             = 0.2;
 
     @Override
     public void runOpMode() {
@@ -138,9 +137,49 @@ public class ParkAuto extends LinearOpMode {
         // Wait for the game to start (driver presses START)
         waitForStart();
 
+        scoreSamplePrep();
+        sleep(1000);
+
         // Step through each leg of the path,
         // Note: Reverse movement is obtained by setting a negative distance (not speed)
-        encoderDrive(DRIVE_SPEED,  24,  24, 10.0);  // S1: Forward 47 Inches with 5 Sec timeout
+        encoderDrive(DRIVE_SPEED,  6,  6, true);  // S1: Forward 47 Inches with 5 Sec timeout
+
+        robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
+
+        sleep(500);
+
+        robot.motorLF.setPower(-0.2);
+        robot.motorLR.setPower(-0.2);
+        robot.motorRF.setPower(-0.2);
+        robot.motorRR.setPower(-0.2);
+
+        sleep(1000);
+
+        robot.motorLF.setPower(0);
+        robot.motorLR.setPower(0);
+        robot.motorRF.setPower(0);
+        robot.motorRR.setPower(0);
+
+//        encoderDrive(-DRIVE_SPEED,  10,  10, false);  // S1: Forward 47 Inches with 5 Sec timeout
+
+        resetArm();
+        sleep(2000);
+
+        robot.motorLF.setPower(-0.2);
+        robot.motorLR.setPower(-0.2);
+        robot.motorRF.setPower(-0.2);
+        robot.motorRR.setPower(-0.2);
+
+        sleep(5000);
+
+        robot.motorLF.setPower(0);
+        robot.motorLR.setPower(0);
+        robot.motorRF.setPower(0);
+        robot.motorRR.setPower(0);
+
+
+//        encoderDrive(-DRIVE_SPEED,  50,  50, false);  // S1: Forward 47 Inches with 5 Sec timeout
+
 
         telemetry.addData("Path", "Complete");
         telemetry.update();
@@ -156,8 +195,7 @@ public class ParkAuto extends LinearOpMode {
      *  3) Driver stops the OpMode running.
      */
     public void encoderDrive(double speed,
-                             double leftInches, double rightInches,
-                             double timeoutS) {
+                             double leftInches, double rightInches, boolean forward) {
         int newLeftTarget;
         int newRightTarget;
 
@@ -167,8 +205,10 @@ public class ParkAuto extends LinearOpMode {
             // Determine new target position, and pass to motor controller
             newLeftTarget = robot.motorLF.getCurrentPosition() + (int)(leftInches * COUNTS_PER_INCH);
             newRightTarget = robot.motorRF.getCurrentPosition() + (int)(rightInches * COUNTS_PER_INCH);
-            robot.motorLF.setTargetPosition(newLeftTarget);
-            robot.motorRF.setTargetPosition(newRightTarget);
+            if(!forward){
+                newLeftTarget = newLeftTarget * -1;
+                newRightTarget = newRightTarget * -1;
+            }
 
             // Turn On RUN_TO_POSITION
             robot.motorLR.setTargetPosition(newLeftTarget);
@@ -190,7 +230,6 @@ public class ParkAuto extends LinearOpMode {
             // However, if you require that BOTH motors have finished their moves before the robot continues
             // onto the next step, use (isBusy() || isBusy()) in the loop test.
             while (opModeIsActive() &&
-                   (runtime.seconds() < timeoutS) &&
                    (robot.motorLR.isBusy() && robot.motorRR.isBusy())) {
 
                 // Display it for the driver.
@@ -200,19 +239,36 @@ public class ParkAuto extends LinearOpMode {
                 telemetry.update();
             }
 
+            robot.motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motorLR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+            robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+
             // Stop all motion;
             robot.motorLF.setPower(0);
             robot.motorLR.setPower(0);
             robot.motorRF.setPower(0);
             robot.motorRR.setPower(0);
-
-            // Turn off RUN_TO_POSITION
-            robot.motorLF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.motorRF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.motorLR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-            robot.motorRR.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-
-            sleep(250);   // optional pause after each move.
         }
+    }
+
+    public void scoreSamplePrep(){
+        robot.servoIntake.setPosition(robot.INTAKE_CLAW_CLOSE);
+        robot.motorArmAngle.setPower(1);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_SCORE_HIGH_BASKET);
+        robot.motorArmLength.setPower(1);
+        robot.motorArmLength.setTargetPosition(robot.ARM_LENGTH_SCORE_HIGH_BASKET);
+        robot.servoIntakeAngle.setPosition(robot.INTAKE_ANGLE_SCORE_SAMPLE);
+    }
+
+    public void resetArm(){
+        robot.servoIntakeAngle.setPosition(robot.INTAKE_ANGLE_GRAB_SPECIMEN);
+        sleep(500);
+        robot.motorArmLength.setPower(1);
+        robot.motorArmLength.setTargetPosition(robot.ARM_LENGTH_RESET);
+        sleep(1500);
+        robot.motorArmAngle.setPower(0.5);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_GRAB_SPECIMEN);
     }
 }
