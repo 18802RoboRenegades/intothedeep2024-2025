@@ -113,7 +113,6 @@ public class __MecanumWheelDrive__ extends LinearOpMode
                 TurnSpeed = 0.5;
             }
 
-//            angle of the arm
             if(gamepad1.left_bumper || gamepad2.left_bumper) {
                 armAngle = armAngle + 2;
                 if(armAngle > 0) armAngle = 0;
@@ -123,7 +122,8 @@ public class __MecanumWheelDrive__ extends LinearOpMode
                 armAnglePower = 0.25;
                 if (armAngle < robot.ARM_ANGLE_SCORE_HIGH_BASKET) armAngle = robot.ARM_ANGLE_SCORE_HIGH_BASKET;
             }
-//          length of the arm
+
+            // arm extension
             if((gamepad1.right_trigger > 0) || (gamepad2.right_trigger > 0)) {
                 armControl = armControl + 10;
                 if(armControl > robot.ARM_LENGTH_SCORE_HIGH_BASKET) armControl = robot.ARM_LENGTH_SCORE_HIGH_BASKET;
