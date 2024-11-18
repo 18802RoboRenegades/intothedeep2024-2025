@@ -79,8 +79,7 @@ public class __MecanumWheelDrive__ extends LinearOpMode
         double leftPower = 0;
         double rightPower = 0;
         double armAnglePower = 1;
-        double intakeAngle = 1
-                ;
+        double intakeAngle = 0;
         double aPressCount = 1;
         boolean clawOpen = true;
         ElapsedTime aPressTime = new ElapsedTime();

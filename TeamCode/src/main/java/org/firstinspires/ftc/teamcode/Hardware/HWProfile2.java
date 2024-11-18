@@ -39,7 +39,7 @@ public class HWProfile2 {
     public final double INTAKE_CLAW_CLOSE = 0.7;
 
     // Intake angle servo constants
-    public final double INTAKE_ANGLE_GRAB_SPECIMEN = 0.97;
+    public final double INTAKE_ANGLE_GRAB_SPECIMEN = 0.03;
     public final double INTAKE_ANGLE_GRAB_SAMPLE = 0.5;
     public final double INTAKE_ANGLE_SCORE_SPECIMEN = 0.5;
     public final double INTAKE_ANGLE_SCORE_SAMPLE = 0.5;
@@ -52,7 +52,7 @@ public class HWProfile2 {
     public final int ARM_LENGTH_RESET = 0;
     public final int ARM_LENGTH_SAFE = 400;
     public final int ARM_LENGTH_SCORE_SPECIMEN = 400;
-    public final int ARM_LENGTH_SCORE_HIGH_BASKET = 4190;
+    public final int ARM_LENGTH_SCORE_HIGH_BASKET = 3790;
 
     /*
      * Hardware devices
