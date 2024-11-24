@@ -94,9 +94,7 @@ public class RRBaseAuto extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         //TODO: Initialize hardware
-        robot.init(hardwareMap);
-
-        int position = 3;
+        robot.init(hardwareMap, false);
 
         //Key Pay inputs to selecting Starting Position of robot
         selectStartingPosition();

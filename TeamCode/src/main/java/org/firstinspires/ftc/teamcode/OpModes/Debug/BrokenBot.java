@@ -53,7 +53,7 @@ public class BrokenBot extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, true);
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();

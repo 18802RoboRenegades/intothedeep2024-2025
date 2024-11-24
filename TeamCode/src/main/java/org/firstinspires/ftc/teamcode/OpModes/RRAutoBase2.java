@@ -41,11 +41,11 @@ import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.teamcode.Hardware.HWProfile;
 
 //@Disabled
-@Autonomous(name = "Auto Samples - EXPERIMENTAL", group = "Competition", preselectTeleOp = "GoBildaRi3D2425")
+@Autonomous(name = "RR Auto", group = "Competition", preselectTeleOp = "__MecanumWheelDrive__")
 public class RRAutoBase2 extends LinearOpMode{
 
-    public static String TEAM_NAME = "Project Peacock";
-    public static int TEAM_NUMBER = 10355;
+    public static String TEAM_NAME = "Robo Renegades";
+    public static int TEAM_NUMBER = 18802;
 
     //Define and declare Robot Starting Locations
     public enum START_POSITION {
@@ -65,7 +65,7 @@ public class RRAutoBase2 extends LinearOpMode{
     public void runOpMode() throws InterruptedException {
 
         //TODO: Initialize hardware
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, false);
 
         //Key Pay inputs to selecting Starting Position of robot
         selectStartingPosition();

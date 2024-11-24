@@ -64,7 +64,7 @@ public class __MecanumWheelDrive__ extends LinearOpMode
 
     public void runOpMode()
     {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, true);
         telemetry.addData("Status:", "Initialized");
         telemetry.update();
         // Wait for the game to start (driver presses PLAY)

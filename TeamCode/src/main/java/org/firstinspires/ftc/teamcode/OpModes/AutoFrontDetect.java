@@ -33,7 +33,7 @@ public class AutoFrontDetect extends LinearOpMode {
         telemetry.addData("Robot State = ", "NOT READY");
         telemetry.update();
 
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, true);
 
         dashboard = FtcDashboard.getInstance();
         TelemetryPacket dashTelemetry = new TelemetryPacket();

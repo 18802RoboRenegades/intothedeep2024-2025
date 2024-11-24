@@ -55,7 +55,7 @@ public class SingleDrive extends LinearOpMode {
     private boolean IsOverrideActivated = false;
 
     public void runOpMode() {
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, true);
         telemetry.addData("Status:", "Initialized");
         telemetry.update();
 

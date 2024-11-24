@@ -103,7 +103,7 @@ public class ParkAuto extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        robot.init(hardwareMap);
+        robot.init(hardwareMap, true);
 
         robot.motorLR.setTargetPosition(0);
         robot.motorLF.setTargetPosition(0);
