@@ -1,11 +1,7 @@
 package org.firstinspires.ftc.teamcode.Libs;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
-import com.qualcomm.robotcore.util.ElapsedTime;
 
-import org.firstinspires.ftc.teamcode.Hardware.CSAutoParams;
-import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
-import org.firstinspires.ftc.teamcode.Hardware.RRHWProfile;
+import org.firstinspires.ftc.teamcode.Hardware.HWProfile;
 
 public class RRMechOps{
 
@@ -15,20 +11,18 @@ public class RRMechOps{
 
     **/
 
-    public RRHWProfile robot;
+    public HWProfile robot;
     public LinearOpMode opMode;
-    public CSAutoParams params;
-    private HWProfile2 robot2 = new HWProfile2();
+    private HWProfile robot2 = new HWProfile();
 
     private DriveMecanumFTCLib drive = new DriveMecanumFTCLib(robot2, opMode);
 
     /*
      * Constructor method
      */
-    public RRMechOps(RRHWProfile myRobot, LinearOpMode myOpMode, CSAutoParams autoParams){
+    public RRMechOps(HWProfile myRobot, LinearOpMode myOpMode){
         robot = myRobot;
         opMode = myOpMode;
-        params = autoParams;
 
     }   // close DriveMecanum constructor Method
 

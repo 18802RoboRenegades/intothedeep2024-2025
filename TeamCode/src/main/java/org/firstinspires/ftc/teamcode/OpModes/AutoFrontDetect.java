@@ -7,13 +7,13 @@ import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.Libs.DriveMecanumFTCLib;
-import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
+import org.firstinspires.ftc.teamcode.Hardware.HWProfile;
 
 @Autonomous(name = "Auto Front Side", group = "Competition")
 @Disabled
 public class AutoFrontDetect extends LinearOpMode {
 
-    private final static HWProfile2 robot = new HWProfile2();
+    private final static HWProfile robot = new HWProfile();
     private final LinearOpMode opMode = this;
 
     FtcDashboard dashboard;

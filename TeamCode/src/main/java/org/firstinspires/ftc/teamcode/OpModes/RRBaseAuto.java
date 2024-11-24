@@ -45,7 +45,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.internal.camera.calibration.CameraCalibration;
-import org.firstinspires.ftc.teamcode.Hardware.CSAutoParams;
+import org.firstinspires.ftc.teamcode.Hardware.HWProfile;
 import org.firstinspires.ftc.teamcode.MecanumDrive;
 import org.firstinspires.ftc.vision.VisionPortal;
 import org.firstinspires.ftc.vision.VisionProcessor;
@@ -55,12 +55,8 @@ import org.opencv.core.Rect;
 import org.opencv.core.Scalar;
 import org.opencv.imgproc.Imgproc;
 
-import org.firstinspires.ftc.teamcode.Hardware.RRHWProfile;
 import org.firstinspires.ftc.teamcode.Libs.RRMechOps;
 
-/**
- * FTC WIRES Autonomous Example for only vision detection using tensorflow and park
- */
 //@Autonomous(name = "RR", group = "00-Autonomous", preselectTeleOp = "FTC Wires TeleOp")
 @Autonomous(name = "Auto - No Cycles", group = "Comp")
 @Disabled
@@ -90,10 +86,9 @@ public class RRBaseAuto extends LinearOpMode {
         RIGHT
     }
     public static IDENTIFIED_SPIKE_MARK_LOCATION identifiedSpikeMarkLocation = IDENTIFIED_SPIKE_MARK_LOCATION.LEFT;
-    public final static CSAutoParams params = new CSAutoParams();
-    public final static RRHWProfile robot = new RRHWProfile(params);
+    public final static HWProfile robot = new HWProfile();
     public LinearOpMode opMode = this;
-    public RRMechOps mechOps = new RRMechOps(robot, opMode, params);
+    public RRMechOps mechOps = new RRMechOps(robot, opMode);
 
     @Override
     public void runOpMode() throws InterruptedException {

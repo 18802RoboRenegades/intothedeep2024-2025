@@ -38,9 +38,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.MecanumDrive;
-import org.firstinspires.ftc.teamcode.Hardware.CSAutoParams;
-import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
-import org.firstinspires.ftc.teamcode.Libs.RRMechOps;
+import org.firstinspires.ftc.teamcode.Hardware.HWProfile;
 
 //@Disabled
 @Autonomous(name = "Auto Samples - EXPERIMENTAL", group = "Competition", preselectTeleOp = "GoBildaRi3D2425")
@@ -59,9 +57,8 @@ public class RRAutoBase2 extends LinearOpMode{
 
     public static START_POSITION startPosition;
 
-    public final static HWProfile2 robot = new HWProfile2();
+    public final static HWProfile robot = new HWProfile();
     public LinearOpMode opMode = this;
-    public CSAutoParams params = new CSAutoParams();
 //    public RRMechOps mechOps = new RRMechOps(robot, opMode, params);
 
     @Override

@@ -3,17 +3,16 @@ package org.firstinspires.ftc.teamcode.Libs;
 import static com.arcrobotics.ftclib.util.MathUtils.clamp;
 import com.acmerobotics.dashboard.FtcDashboard;
 import com.acmerobotics.dashboard.telemetry.TelemetryPacket;
-import com.arcrobotics.ftclib.hardware.motors.MotorGroup;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.util.ElapsedTime;
 import com.qualcomm.robotcore.util.Range;
 
-import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
+import org.firstinspires.ftc.teamcode.Hardware.HWProfile;
 
 public class DriveMecanumFTCLib {
 
-    private final HWProfile2 robot;
+    private final HWProfile robot;
     public LinearOpMode opMode;
 
     FtcDashboard dashboard;
@@ -22,7 +21,7 @@ public class DriveMecanumFTCLib {
     /*
      * Constructor method
      */
-    public DriveMecanumFTCLib(HWProfile2 myRobot, LinearOpMode myOpMode){
+    public DriveMecanumFTCLib(HWProfile myRobot, LinearOpMode myOpMode){
         robot = myRobot;
         opMode = myOpMode;
 

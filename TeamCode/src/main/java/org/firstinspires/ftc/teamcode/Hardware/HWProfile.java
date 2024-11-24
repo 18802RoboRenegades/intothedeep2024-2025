@@ -1,15 +1,13 @@
 package org.firstinspires.ftc.teamcode.Hardware;
 
 import com.arcrobotics.ftclib.hardware.RevIMU;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.teamcode.MecanumDrive;
 
 
-public class HWProfile2 {
+public class HWProfile {
 
 
     /*
@@ -79,7 +77,7 @@ public class HWProfile2 {
      */
 
     /* Constructor */
-    public HWProfile2() {
+    public HWProfile() {
     }
 
     public void init(HardwareMap ahwMap) {

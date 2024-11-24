@@ -35,7 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.teamcode.Libs.DriveMecanumFTCLib;
-import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
+import org.firstinspires.ftc.teamcode.Hardware.HWProfile;
 
 
 @TeleOp(name="Broken Bot", group="Test Mode")
@@ -43,7 +43,7 @@ import org.firstinspires.ftc.teamcode.Hardware.HWProfile2;
 public class BrokenBot extends LinearOpMode {
 
     // Declare OpMode members.
-    private final static HWProfile2 robot = new HWProfile2();
+    private final static HWProfile robot = new HWProfile();
     private final LinearOpMode opMode = this;
     public DriveMecanumFTCLib drive = new DriveMecanumFTCLib(robot, opMode);
 
