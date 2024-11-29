@@ -13,9 +13,6 @@ public class RRMechOps{
 
     public HWProfile robot;
     public LinearOpMode opMode;
-    private HWProfile robot2 = new HWProfile();
-
-    private DriveMecanumFTCLib drive = new DriveMecanumFTCLib(robot2, opMode);
 
     /*
      * Constructor method
@@ -66,5 +63,21 @@ public class RRMechOps{
         robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
     }
 
+    public void resetArm(){
+        robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
+        robot.motorArmAngle.setPower(1);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_GRAB_SPECIMEN);
+        robot.motorArmLength.setPower(1);
+        robot.motorArmLength.setTargetPosition(robot.ARM_LENGTH_RESET);
+    }
+
+    public void scoreSample(){
+        robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
+        robot.motorArmAngle.setPower(1);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_SCORE_HIGH_BASKET);
+        robot.motorArmLength.setPower(1);
+        robot.motorArmLength.setTargetPosition(robot.ARM_LENGTH_SCORE_HIGH_BASKET);
+
+    }
 
 }   // close the RRMechOps class
