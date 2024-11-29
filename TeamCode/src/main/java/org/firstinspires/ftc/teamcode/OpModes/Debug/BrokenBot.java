@@ -79,6 +79,27 @@ public class BrokenBot extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
+            if (gamepad1.dpad_up) {
+                robot.motorLF.setPower(1);
+                telemetry.addData("Motor LF ", robot.motorLF.getCurrentPosition());
+            } else robot.motorLF.setPower(0);
+
+            if (gamepad1.dpad_down) {
+                robot.motorLR.setPower(1);
+                telemetry.addData("Motor LR ", robot.motorLR.getCurrentPosition());
+            } else robot.motorLR.setPower(0);
+
+            if (gamepad1.dpad_right) {
+                robot.motorRF.setPower(1);
+                telemetry.addData("Motor RF ", robot.motorRF.getCurrentPosition());
+            } else robot.motorRF.setPower(0);
+
+            if (gamepad1.dpad_left) {
+                robot.motorRR.setPower(1);
+                telemetry.addData("Motor RR ", robot.motorRR.getCurrentPosition());
+            } else robot.motorRR.setPower(0);
+
+
             telemetry.addData("Right Front Encoder = ", robot.motorRF.getCurrentPosition());
             telemetry.addData("Right Rear Encoder = ", robot.motorRR.getCurrentPosition());
             telemetry.addData("Left Front Encoder = ", robot.motorLF.getCurrentPosition());

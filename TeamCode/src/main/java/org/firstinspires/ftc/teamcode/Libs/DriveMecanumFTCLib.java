@@ -327,14 +327,19 @@ public class DriveMecanumFTCLib {
 
     public void StrafeDrive(double drive, double turn, double strafe) {
 
-        double leftPower    = -Range.clip(drive - turn, -robot.MAX_DRIVING_POWER, robot.MAX_DRIVING_POWER);
-        double rightPower   = -Range.clip(drive + turn, -robot.MAX_DRIVING_POWER, robot.MAX_DRIVING_POWER);
+        double leftPower    = -Range.clip(drive, -robot.MAX_DRIVING_POWER, robot.MAX_DRIVING_POWER);
+        double rightPower   = -Range.clip(drive, -robot.MAX_DRIVING_POWER, robot.MAX_DRIVING_POWER);
         double strafePower = Range.clip(-strafe, -robot.MAX_DRIVING_POWER, robot.MAX_DRIVING_POWER);
 
-        robot.motorLF.setPower(leftPower - strafePower);
-        robot.motorLR.setPower(leftPower + strafePower);
-        robot.motorRF.setPower(rightPower + strafePower);
-        robot.motorRR.setPower(rightPower - strafePower);
+        robot.motorLF.setPower(leftPower - turn + strafePower);
+        robot.motorLR.setPower(leftPower - turn - strafePower);
+        robot.motorRF.setPower(rightPower + turn - strafePower);
+        robot.motorRR.setPower(rightPower + turn + strafePower);
+
+//        robot.motorLF.setPower(turn);
+//        robot.motorLR.setPower(turn);
+//        robot.motorRF.setPower(-turn);
+//        robot.motorRR.setPower(-turn);
     }
 
     /*******************************************************************************************

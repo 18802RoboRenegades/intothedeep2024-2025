@@ -99,7 +99,7 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             turn = -this.gamepad1.right_stick_x * TurnSpeed;
             strafe = -this.gamepad1.left_stick_x  * StrafeSpeed;
 
-           drive.StrafeDrive(stickDrive, strafe, turn);
+           drive.StrafeDrive(stickDrive,  turn, strafe);
 
            // boost
             if (gamepad1.left_stick_button) {
