@@ -65,12 +65,14 @@ public class RRBaseAuto extends LinearOpMode {
 
     //Initialize Pose2d as desired
     public Pose2d initPose = new Pose2d(0, 0, 0); // Starting Pose
-    public Pose2d moveBeyondTrussPose = new Pose2d(0,0,0);
-    public Pose2d dropPurplePixelPose = new Pose2d(0, 0, 0);
+    public Pose2d specimenScoringPrepPosition = new Pose2d(0,0,0);
+    public Pose2d specimenScoringPosition = new Pose2d(0, 0, 0);
     public Pose2d midwayPose1 = new Pose2d(0,0,0);
-    public Pose2d midwayPose1a = new Pose2d(0,0,0);
-    public Pose2d intakeStack = new Pose2d(0,0,0);
+    public Pose2d coloredSample1 = new Pose2d(0,0,0);
+    public Pose2d coloredSample2 = new Pose2d(0,0,0);
+    public Pose2d coloredSample3 = new Pose2d(0,0,0);
     public Pose2d midwayPose2 = new Pose2d(0,0,0);
+    public Pose2d specimenPickupPosition = new Pose2d(0,0,0);
     public Pose2d dropYellowPixelPose = new Pose2d(0, 0, 0);
     public Pose2d parkPose = new Pose2d(0,0, 0);
 
@@ -85,16 +87,19 @@ public class RRBaseAuto extends LinearOpMode {
 
 
         //Key Pay inputs to selecting Starting Position of robot
-        selectStartingPosition();
+//        selectStartingPosition();
 
         mechOps.openClaw();
         mechOps.resetArm();
 
         // Wait for the DS start button to be touched.
-        telemetry.addData("Selected Starting Position", startPosition);
+  //      telemetry.addData("Selected Starting Position", startPosition);
         telemetry.addData(">", "Touch Play to start OpMode");
         telemetry.update();
 
+        mechOps.closeClaw();
+
+        waitForStart();
         //Game Play Button  is pressed
         if (opModeIsActive() && !isStopRequested()) {
 
@@ -106,86 +111,94 @@ public class RRBaseAuto extends LinearOpMode {
 
 
         // make sure the bot has a good grip on the pixels
-        /**
-        mechOps.resetArm();
-        mechOps.closeClaw();
-        safeWaitSeconds(0.5);
-        **/
+        Pose2d specimenScoringPrepPosition = new Pose2d(30,0,0);
+        Pose2d specimenScoringPosition = new Pose2d(24, -2, 0);
+        Pose2d midwayPose1 = new Pose2d(23,-28,0);
+        Pose2d midwayPose2 = new Pose2d(60,-25,0);
+        Pose2d midwayPose3 = new Pose2d(60,-35,90);
+        Pose2d midwayPose4 = new Pose2d(23,-30,90);
+        Pose2d coloredSample1 = new Pose2d(60,-40,0);
+        Pose2d coloredSample2 = new Pose2d(60,-55,0);
+        Pose2d coloredSample3 = new Pose2d(0,0,0);
+        Pose2d observationZonePosition = new Pose2d(5,-30,0);
+        Pose2d specimenPickupPrepPosition = new Pose2d(8,-25,90);
+        Pose2d specimenPickupPosition = new Pose2d(0,-28,180);
+        Pose2d dropYellowPixelPose = new Pose2d(0, 0, 0);
+        Pose2d parkPose = new Pose2d(0,0, 0);
 
+        mechOps.setScoreSpecimen();
+        safeWaitSeconds(0.25);
         //Move robot to dropPurplePixel based on identified Spike Mark Location
         Actions.runBlocking(
                 thisDrive.actionBuilder(thisDrive.pose)
-                        .strafeToLinearHeading(moveBeyondTrussPose.position, moveBeyondTrussPose.heading)
-                        .strafeToLinearHeading(dropPurplePixelPose.position, dropPurplePixelPose.heading)
+                        .strafeToLinearHeading(specimenScoringPrepPosition.position, specimenScoringPrepPosition.heading)
+                        .strafeToLinearHeading(specimenScoringPosition.position, specimenScoringPosition.heading)
                         .build());
 
-        //TODO : Code to drop Purple Pixel on Spike Mark
-        /**
-        mechOps.raiseArm(params.ARM_OUT);
-        safeWaitSeconds(0.3);
-         **/
+        //TODO : Code to let go of Specimen
+        mechOps.openClaw();
+        mechOps.resetArm();
 
         //Move robot to midwayPose1
-        /***    Skipping this step for now
          Actions.runBlocking(
-                drive.actionBuilder(drive.pose)
-                        .strafeToLinearHeading(midwayPose1.position, midwayPose1.heading)
-                        .build());
-         **/
-
-        //For Blue Right and Red Left, intake pixel from stack
-        if (startPosition == START_POSITION.BLUE_SPECIMEN ||
-                startPosition == START_POSITION.RED_SAMPLE) {
-            Actions.runBlocking(
-                    thisDrive.actionBuilder(thisDrive.pose)
-                            .strafeToLinearHeading(midwayPose1a.position, midwayPose1a.heading)
-                            .strafeToLinearHeading(intakeStack.position, intakeStack.heading)
-                            .build());
-
-            //TODO : Code to intake pixel from stack
-            safeWaitSeconds(0);
-
-            //Move robot to midwayPose2 and to dropYellowPixelPose
-            Actions.runBlocking(
-                    thisDrive.actionBuilder(thisDrive.pose)
-                            .strafeToLinearHeading(midwayPose2.position, midwayPose2.heading)
-                            .build());
-        }
-
-        //Move robot to midwayPose2 and to dropYellowPixelPose
-        Actions.runBlocking(
                 thisDrive.actionBuilder(thisDrive.pose)
                         .strafeToLinearHeading(midwayPose1.position, midwayPose1.heading)
+                        .strafeToLinearHeading(midwayPose2.position, midwayPose2.heading)
+                        .strafeToLinearHeading(coloredSample1.position, coloredSample1.heading)
+                        .strafeToLinearHeading(observationZonePosition.position, observationZonePosition.heading)
+                        .strafeToLinearHeading(midwayPose3.position, midwayPose3.heading)
+                        .strafeToLinearHeading(coloredSample2.position, coloredSample2.heading)
+                        .strafeToLinearHeading(observationZonePosition.position, observationZonePosition.heading)
+                        .strafeToLinearHeading(midwayPose4.position, midwayPose4.heading)
+                        .strafeToLinearHeading(specimenPickupPrepPosition.position, specimenPickupPrepPosition.heading)
+                        .strafeToLinearHeading(specimenPickupPosition.position, specimenPickupPosition.heading)
                         .build());
 
+        safeWaitSeconds(0.500);
+        mechOps.closeClaw();
+
+        //TODO : Code to intake pixel from stack
         //Move robot to midwayPose2 and to dropYellowPixelPose
-        Actions.runBlocking(
-                thisDrive.actionBuilder(thisDrive.pose)
-                        .strafeToLinearHeading(dropYellowPixelPose.position, dropYellowPixelPose.heading)
-                        .build());
-
-
-        //TODO : Code to drop Pixel on Backdrop;
-        /***
-        safeWaitSeconds(0.5);
-        mechOps.liftLowJunction();
-        safeWaitSeconds(0.5);
-        mechOps.raiseArm(params.ARM_SCORE);
-        safeWaitSeconds(1);
-        mechOps.openClaw();
-        safeWaitSeconds(0.4);
-        mechOps.raiseArm(params.ARM_OUT);
-        safeWaitSeconds(0.5);
-        mechOps.liftReset();
-         ***/
-
-
-        //Move robot to park in Backstage
-        Actions.runBlocking(
-                thisDrive.actionBuilder(thisDrive.pose)
-                        .strafeToLinearHeading(parkPose.position, parkPose.heading)
-                        //.splineToLinearHeading(parkPose,0)
-                        .build());
+//        Actions.runBlocking(
+//                thisDrive.actionBuilder(thisDrive.pose)
+//                        .strafeToLinearHeading(midwayPose2.position, midwayPose2.heading)
+//                        .build());
+//
+//
+//        //Move robot to midwayPose2 and to dropYellowPixelPose
+//        Actions.runBlocking(
+//                thisDrive.actionBuilder(thisDrive.pose)
+//                        .strafeToLinearHeading(midwayPose1.position, midwayPose1.heading)
+//                        .build());
+//
+//        //Move robot to midwayPose2 and to dropYellowPixelPose
+//        Actions.runBlocking(
+//                thisDrive.actionBuilder(thisDrive.pose)
+//                        .strafeToLinearHeading(dropYellowPixelPose.position, dropYellowPixelPose.heading)
+//                        .build());
+//
+//
+//        //TODO : Code to drop Pixel on Backdrop;
+//        /***
+//        safeWaitSeconds(0.5);
+//        mechOps.liftLowJunction();
+//        safeWaitSeconds(0.5);
+//        mechOps.raiseArm(params.ARM_SCORE);
+//        safeWaitSeconds(1);
+//        mechOps.openClaw();
+//        safeWaitSeconds(0.4);
+//        mechOps.raiseArm(params.ARM_OUT);
+//        safeWaitSeconds(0.5);
+//        mechOps.liftReset();
+//         ***/
+//
+//
+//        //Move robot to park in Backstage
+//        Actions.runBlocking(
+//                thisDrive.actionBuilder(thisDrive.pose)
+//                        .strafeToLinearHeading(parkPose.position, parkPose.heading)
+//                        //.splineToLinearHeading(parkPose,0)
+//                        .build());
 
         /**
         mechOps.resetArm();
@@ -197,15 +210,15 @@ public class RRBaseAuto extends LinearOpMode {
     public void samples(){
         MecanumDrive drive = new MecanumDrive(hardwareMap, initPose);
 
-        dropPurplePixelPose = new Pose2d(25, 13, Math.toRadians(-45));
+        specimenScoringPosition = new Pose2d(25, 13, Math.toRadians(-45));
         dropYellowPixelPose = new Pose2d(23, 42, Math.toRadians(-90));
-        moveBeyondTrussPose = new Pose2d(24, 15, Math.toRadians(-45));
-        dropPurplePixelPose = new Pose2d(35, 4, Math.toRadians(0));
+        specimenScoringPrepPosition = new Pose2d(24, 15, Math.toRadians(-45));
+        specimenScoringPosition = new Pose2d(35, 4, Math.toRadians(0));
         dropYellowPixelPose = new Pose2d(25, 42,Math.toRadians(-90));
-        moveBeyondTrussPose = new Pose2d(20, 4, Math.toRadians(0));
-        dropPurplePixelPose = new Pose2d(28, -10, Math.toRadians(-45));
+        specimenScoringPrepPosition = new Pose2d(20, 4, Math.toRadians(0));
+        specimenScoringPosition = new Pose2d(28, -10, Math.toRadians(-45));
         dropYellowPixelPose = new Pose2d(31, 44, Math.toRadians(-90));
-        moveBeyondTrussPose = new Pose2d(27, 3, Math.toRadians(-45));
+        specimenScoringPrepPosition = new Pose2d(27, 3, Math.toRadians(-45));
         midwayPose1 = new Pose2d(30, 33, Math.toRadians(-90));
         parkPose = new Pose2d(3, 30, Math.toRadians(-90));
 
@@ -214,15 +227,15 @@ public class RRBaseAuto extends LinearOpMode {
     public void specimens(){
         MecanumDrive drive = new MecanumDrive(hardwareMap, initPose);
 
-        dropPurplePixelPose = new Pose2d(25, 13, Math.toRadians(-45));
+        specimenScoringPosition = new Pose2d(25, 13, Math.toRadians(-45));
         dropYellowPixelPose = new Pose2d(23, 42, Math.toRadians(-90));
-        moveBeyondTrussPose = new Pose2d(24, 15, Math.toRadians(-45));
-        dropPurplePixelPose = new Pose2d(35, 4, Math.toRadians(0));
+        specimenScoringPrepPosition = new Pose2d(24, 15, Math.toRadians(-45));
+        specimenScoringPosition = new Pose2d(35, 4, Math.toRadians(0));
         dropYellowPixelPose = new Pose2d(25, 42,Math.toRadians(-90));
-        moveBeyondTrussPose = new Pose2d(20, 4, Math.toRadians(0));
-        dropPurplePixelPose = new Pose2d(28, -10, Math.toRadians(-45));
+        specimenScoringPrepPosition = new Pose2d(20, 4, Math.toRadians(0));
+        specimenScoringPosition = new Pose2d(28, -10, Math.toRadians(-45));
         dropYellowPixelPose = new Pose2d(31, 44, Math.toRadians(-90));
-        moveBeyondTrussPose = new Pose2d(27, 3, Math.toRadians(-45));
+        specimenScoringPrepPosition = new Pose2d(27, 3, Math.toRadians(-45));
         midwayPose1 = new Pose2d(30, 33, Math.toRadians(-90));
         parkPose = new Pose2d(3, 30, Math.toRadians(-90));
 

@@ -42,9 +42,9 @@ public class RRMechOps{
     public void setScoreSpecimen(){
         robot.motorArmAngle.setPower(1);
         robot.motorArmLength.setPower(1);
-        robot.servoIntakeAngle.setPosition(robot.ARM_ANGLE_SCORE_SPECIMEN);
-        robot.motorArmAngle.setPower(robot.ARM_ANGLE_GRAB_SPECIMEN);
-        robot.motorArmLength.setPower(robot.ARM_LENGTH_SCORE_SPECIMEN);
+        robot.servoIntakeAngle.setPosition(robot.INTAKE_ANGLE_SCORE_SPECIMEN);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_SCORE_SPECIMEN);
+        robot.motorArmLength.setTargetPosition(robot.ARM_LENGTH_SCORE_SPECIMEN);
     }
 
     public void scoreSpecimen(){
@@ -65,7 +65,8 @@ public class RRMechOps{
 
     public void resetArm(){
         robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
-        robot.motorArmAngle.setPower(1);
+        robot.servoIntakeAngle.setPosition(robot.INTAKE_ANGLE_GRAB_SPECIMEN);
+        robot.motorArmAngle.setPower(0.2);
         robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_GRAB_SPECIMEN);
         robot.motorArmLength.setPower(1);
         robot.motorArmLength.setTargetPosition(robot.ARM_LENGTH_RESET);
