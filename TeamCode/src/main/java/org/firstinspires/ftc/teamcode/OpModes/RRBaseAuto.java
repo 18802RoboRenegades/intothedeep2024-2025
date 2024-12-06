@@ -91,6 +91,7 @@ public class RRBaseAuto extends LinearOpMode {
 
         mechOps.openClaw();
         mechOps.resetArm();
+        robot.servoIntakeAngle.setPosition(robot.INTAKE_ANGLE_INIT);
 
         // Wait for the DS start button to be touched.
   //      telemetry.addData("Selected Starting Position", startPosition);
@@ -122,7 +123,7 @@ public class RRBaseAuto extends LinearOpMode {
         Pose2d coloredSample3 = new Pose2d(0,0,0);
         Pose2d observationZonePosition = new Pose2d(5,-30,0);
         Pose2d specimenPickupPrepPosition = new Pose2d(8,-25,90);
-        Pose2d specimenPickupPosition = new Pose2d(0,-28,180);
+        Pose2d specimenPickupPosition = new Pose2d(0,-28,170);
         Pose2d dropYellowPixelPose = new Pose2d(0, 0, 0);
         Pose2d parkPose = new Pose2d(0,0, 0);
 
@@ -146,9 +147,9 @@ public class RRBaseAuto extends LinearOpMode {
                         .strafeToLinearHeading(midwayPose2.position, midwayPose2.heading)
                         .strafeToLinearHeading(coloredSample1.position, coloredSample1.heading)
                         .strafeToLinearHeading(observationZonePosition.position, observationZonePosition.heading)
-                        .strafeToLinearHeading(midwayPose3.position, midwayPose3.heading)
-                        .strafeToLinearHeading(coloredSample2.position, coloredSample2.heading)
-                        .strafeToLinearHeading(observationZonePosition.position, observationZonePosition.heading)
+//                        .strafeToLinearHeading(midwayPose3.position, midwayPose3.heading)
+//                        .strafeToLinearHeading(coloredSample2.position, coloredSample2.heading)
+//                        .strafeToLinearHeading(observationZonePosition.position, observationZonePosition.heading)
                         .strafeToLinearHeading(midwayPose4.position, midwayPose4.heading)
                         .strafeToLinearHeading(specimenPickupPrepPosition.position, specimenPickupPrepPosition.heading)
                         .strafeToLinearHeading(specimenPickupPosition.position, specimenPickupPosition.heading)

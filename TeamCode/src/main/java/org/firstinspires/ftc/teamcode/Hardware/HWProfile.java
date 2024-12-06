@@ -34,9 +34,10 @@ public class HWProfile {
     public final double INTAKE_CLAW_CLOSE = 0.7;
 
     // Intake angle servo constants
+    public final double INTAKE_ANGLE_INIT = 0.45;
     public final double INTAKE_ANGLE_GRAB_SPECIMEN = 0.03;
     public final double INTAKE_ANGLE_GRAB_SAMPLE = 0.5;
-    public final double INTAKE_ANGLE_SCORE_SPECIMEN = 0.6;
+    public final double INTAKE_ANGLE_SCORE_SPECIMEN = 0.65;
     public final double INTAKE_ANGLE_SCORE_SAMPLE = 0.5;
 
     // Arm Angle motor constants
