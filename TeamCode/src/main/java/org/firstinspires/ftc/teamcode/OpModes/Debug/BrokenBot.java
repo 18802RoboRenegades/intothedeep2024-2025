@@ -69,15 +69,40 @@ public class BrokenBot extends LinearOpMode {
         /**leftDrive.setDirection(DcMotor.Direction.FORWARD);
         rightDrive.setDirection(DcMotor.Direction.REVERSE);**/
 
+        int armAnglePosition = 0;
         double strafe;
         double tempPosition = 0.3;
         // Wait for the game to start (driver presses PLAY)
 
         waitForStart();
         runtime.reset();
+        robot.motorArmAngle.setPower(1);
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+
+            if(gamepad1.right_stick_y < 0) {
+                armAnglePosition = armAnglePosition + 10;
+
+                robot.motorRF.setPower(1);
+                robot.motorLF.setPower(1);
+                robot.motorRR.setPower(1);
+                robot.motorLR.setPower(1);
+            } else if(gamepad1.right_stick_y > 0) {
+                armAnglePosition = armAnglePosition - 10;
+                robot.motorRF.setPower(1);
+                robot.motorLF.setPower(1);
+                robot.motorRR.setPower(1);
+                robot.motorLR.setPower(1);
+            } else if(gamepad1.a) {
+                robot.motorRF.setPower(0);
+                robot.motorLF.setPower(0);
+                robot.motorRR.setPower(0);
+                robot.motorLR.setPower(0);
+            }
+
+            robot.motorArmAngle.setTargetPosition(armAnglePosition);
+
 
             if (gamepad1.dpad_up) {
                 robot.motorLF.setPower(1);

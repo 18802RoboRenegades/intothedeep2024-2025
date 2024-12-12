@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 public class HWProfile {
 
-
     /*
      * Constants
      */
@@ -18,7 +17,6 @@ public class HWProfile {
     public final double COUNTS_PER_ROTATION = 28;
     public final double GB_COUNTS_PER_ROTATION = 28;    // goBilda encoder value
     public final double MIN_PIDROTATE_POWER = 0.10;
-
 
     /*
      *  Constants & variables for wheel parameters
@@ -30,21 +28,25 @@ public class HWProfile {
     public final double MAX_DRIVING_POWER = 1;
     public final double MIN_STRAFE_POWER = 0.35;
 
-    public final double INTAKE_CLAW_OPEN = 0.9;
-    public final double INTAKE_CLAW_CLOSE = 0.7;
+    public final double INTAKE_CLAW_OPEN = 0.7;
+    public final double INTAKE_CLAW_CLOSE = 0.9;
+
+    public final double INTAKE_TWIST_INIT = 0.46;
+    public final double INTAKE_TWIST_90 = 0.82;
 
     // Intake angle servo constants
     public final double INTAKE_ANGLE_INIT = 0.45;
-    public final double INTAKE_ANGLE_GRAB_SPECIMEN = 0.03;
-    public final double INTAKE_ANGLE_GRAB_SAMPLE = 0.5;
-    public final double INTAKE_ANGLE_SCORE_SPECIMEN = 0.65;
+    public final double INTAKE_ANGLE_GRAB_SPECIMEN = 0.54;
+    public final double INTAKE_ANGLE_GRAB_SAMPLE = 1;
+    public final double INTAKE_ANGLE_SCORE_SPECIMEN = 0.95;
     public final double INTAKE_ANGLE_SCORE_SAMPLE = 0.5;
 
     // Arm Angle motor constants
-    public final int ARM_ANGLE_GRAB_SPECIMEN = -100;
-    public final int ARM_ANGLE_SCORE_SPECIMEN = -1050;
+    public final int ARM_ANGLE_GRAB_SPECIMEN = -110;
+    public final int ARM_ANGLE_SCORE_SPECIMEN = -1200;
     public final int ARM_ANGLE_REMOVE_SPECIMEN = -400;
     public final int ARM_ANGLE_SCORE_HIGH_BASKET = -1310;
+    public final int ARM_ANGLE_GRAB_BAR = -2140;
 
     public final int ARM_LENGTH_RESET = 0;
     public final int ARM_LENGTH_SAFE = 400;
@@ -63,9 +65,10 @@ public class HWProfile {
     public DcMotorEx motorRR;
     public DcMotorEx motorArmAngle;
     public DcMotorEx motorArmLength;
+
     public Servo servoIntakeAngle;
-    //public CRServo servoIntake;
     public Servo servoIntake;
+    public Servo servoTwist;
 
 //    public MecanumDrive mecanum = null;
 
@@ -134,7 +137,7 @@ public class HWProfile {
         motorArmLength.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
         servoIntakeAngle = ahwMap.get(Servo.class,"servoIntakeAngle");
-
+        servoTwist = ahwMap.get(Servo.class,"servoTwist");
         servoIntake =ahwMap.get(Servo.class,"servoIntake");
 
     }

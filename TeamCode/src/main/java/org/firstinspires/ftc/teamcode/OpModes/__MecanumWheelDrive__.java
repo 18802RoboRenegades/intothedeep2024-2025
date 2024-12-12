@@ -32,7 +32,7 @@ import org.firstinspires.ftc.teamcode.Hardware.HWProfile;
     --TO BE DETERMINED--
 
  **/
-@TeleOp(name="TeleOp", group="Competition")
+@TeleOp(name="RR_TeleOP", group="Competition")
 
  /**
 
@@ -58,7 +58,7 @@ public class __MecanumWheelDrive__ extends LinearOpMode
     private ElapsedTime dropTime = new ElapsedTime();
     private ElapsedTime buttonPressTime = new ElapsedTime();
 
-    public double intakeAngle = 0;
+    public double intakeAngle = robot.INTAKE_ANGLE_GRAB_SPECIMEN;
     public int armAngle = robot.ARM_ANGLE_GRAB_SPECIMEN;
     public int armControl = 0;
 
@@ -79,10 +79,11 @@ public class __MecanumWheelDrive__ extends LinearOpMode
         double leftPower = 0;
         double rightPower = 0;
         double armAnglePower = 1;
-        double intakeAngle = 0;
         double aPressCount = 1;
+        double bPressCount = 1;
         boolean clawOpen = true;
         ElapsedTime aPressTime = new ElapsedTime();
+        ElapsedTime bPressTime = new ElapsedTime();
 
         //        double armUpDown;
         int armPosition = 0;
@@ -92,6 +93,7 @@ public class __MecanumWheelDrive__ extends LinearOpMode
         waitForStart();
         buttonPressTime.reset();
         aPressTime.reset();
+        bPressTime.reset();
 
         // driving, turning, and strafing
         while (opModeIsActive()) {
@@ -103,13 +105,7 @@ public class __MecanumWheelDrive__ extends LinearOpMode
 
            // boost
             if (gamepad1.left_stick_button) {
-                DriveSpeed = 1;
-                StrafeSpeed = 1;
-                TurnSpeed = 1;
-            } else {
-                DriveSpeed = 0.5;
-                StrafeSpeed = 0.5;
-                TurnSpeed = 0.5;
+              climb();
             }
 
             if(gamepad1.left_bumper || gamepad2.left_bumper) {
@@ -150,9 +146,27 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             } else if (gamepad1.x || gamepad2.x){
                 grabSpecimen();
                 armAnglePower = 0.25;
-                armAngleDrop = true;
-                dropTime.reset();
+//                armAngleDrop = true;
+//                dropTime.reset();
             }
+
+            if((gamepad1.b || gamepad2.b) && (bPressTime.time() > 0.2)) {
+                bPressCount = bPressCount + 1;
+                bPressTime.reset();
+            }
+
+            if(bPressCount > 2){
+                bPressCount = 1;
+            }
+
+
+
+            if(bPressCount == 1){
+                robot.servoTwist.setPosition(robot.INTAKE_TWIST_INIT);
+            } else if (bPressCount == 2) {
+                robot.servoTwist.setPosition(robot.INTAKE_TWIST_90);
+            }
+
 
             if((gamepad1.a || gamepad2.a) && (aPressTime.time() > 0.2)) {
                 aPressCount = aPressCount + 1;
@@ -184,15 +198,15 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             }
 
             // apply settings to motors and servos
-            robot.servoIntakeAngle.setPosition(intakeAngle);
+            robot.servoIntakeAngle.setPosition(this.intakeAngle);
             robot.motorArmAngle.setPower(armAnglePower);
             robot.motorArmLength.setPower(1);
-            robot.motorArmAngle.setTargetPosition(armAngle);
-            robot.motorArmLength.setTargetPosition(armControl);
+            robot.motorArmAngle.setTargetPosition(this.armAngle);
+            robot.motorArmLength.setTargetPosition(this.armControl);
 
-            telemetry.addData("armControl = ", armControl);
-            telemetry.addData("armAngle = ", armAngle);
-            telemetry.addData("servoIntakeAngle = ", intakeAngle);
+            telemetry.addData("armControl = ", this.armControl);
+            telemetry.addData("armAngle = ", this.armAngle);
+            telemetry.addData("servoIntakeAngle = ", this.intakeAngle);
             telemetry.addData("Status", "Running");
             telemetry.addData("Left Power", leftPower);
             telemetry.addData("Right Power", rightPower);
@@ -202,11 +216,34 @@ public class __MecanumWheelDrive__ extends LinearOpMode
     }
 
     private void grabSpecimen(){
-        this.intakeAngle = robot.INTAKE_ANGLE_GRAB_SPECIMEN;
         this.armAngle = robot.ARM_ANGLE_GRAB_SPECIMEN;
-        robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
         this.armControl = robot.ARM_LENGTH_RESET;
+        this.intakeAngle = robot.INTAKE_ANGLE_GRAB_SPECIMEN;
 
+    }
+
+
+    public void climb(){
+        robot.servoIntakeAngle.setPosition(robot.INTAKE_ANGLE_GRAB_SAMPLE);
+        robot.motorArmAngle.setPower(1);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_GRAB_BAR);
+        sleep(1500);
+        robot.motorRR.setPower(1);
+        robot.motorLR.setPower(1);
+        robot.motorLF.setPower(1);
+        robot.motorRF.setPower(1);
+        sleep(500);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_GRAB_SPECIMEN);
+        sleep(1500);
+        halt();
+    }
+
+
+    public void halt(){
+        robot.motorRR.setPower(0);
+        robot.motorLR.setPower(0);
+        robot.motorLF.setPower(0);
+        robot.motorRF.setPower(0);
     }
 
 }

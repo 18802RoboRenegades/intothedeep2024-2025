@@ -57,21 +57,59 @@ public class RRMechOpsTesting extends LinearOpMode {
         robot.init(hardwareMap, true);
         mechOps = new RRMechOps(robot, opMode);
 
+        int armAnglePosition = 0;
+
         telemetry.addData("Status", "Initialized");
         telemetry.update();
 
         // Wait for the game to start (driver presses PLAY)
 
         waitForStart();
+        robot.motorArmAngle.setPower(1);
 
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
             if(gamepad1.a) mechOps.openClaw();
             if(gamepad1.b) mechOps.closeClaw();
-            if(gamepad1.dpad_up) mechOps.setScoreSpecimen();
-            if(gamepad1.dpad_down) mechOps.scoreSpecimen();
-            if(gamepad1.dpad_right) mechOps.setGrabSpecimen();
+            if(gamepad1.dpad_up) {
+                mechOps.setScoreSpecimen();
+                armAnglePosition = robot.motorArmAngle.getTargetPosition();
+            }
+            if(gamepad1.dpad_right){
+                mechOps.scoreSpecimen();
+                armAnglePosition = robot.motorArmAngle.getTargetPosition();
+            }
+            if(gamepad1.dpad_down){
+                mechOps.setGrabSpecimen();
+                armAnglePosition = robot.motorArmAngle.getTargetPosition();
+            }
+
+            if(gamepad1.right_trigger > 0){
+                armAnglePosition = armAnglePosition + 10;
+                robot.motorArmAngle.setTargetPosition(armAnglePosition);
+            } else if(gamepad1.left_trigger > 0){
+                armAnglePosition = armAnglePosition - 10;
+                robot.motorArmAngle.setTargetPosition(armAnglePosition);
+            }
+
+            if(gamepad1.left_stick_button) climb();
+            if(gamepad1.right_stick_button) halt();
+
+            if(gamepad1.right_stick_y > 0){
+                armAnglePosition = armAnglePosition - ((int) gamepad1.right_stick_y);
+                if(armAnglePosition < 0) armAnglePosition =0;
+                if(armAnglePosition > robot.ARM_ANGLE_SCORE_HIGH_BASKET) armAnglePosition = robot.ARM_LENGTH_SCORE_HIGH_BASKET;
+
+                robot.motorArmAngle.setTargetPosition(armAnglePosition);
+            } else if(gamepad1.right_stick_y < 0){
+                armAnglePosition = armAnglePosition + ((int) gamepad1.right_stick_y);
+                if(armAnglePosition <0) armAnglePosition =0;
+                if(armAnglePosition > robot.ARM_ANGLE_SCORE_HIGH_BASKET) armAnglePosition = robot.ARM_LENGTH_SCORE_HIGH_BASKET;
+
+                robot.motorArmAngle.setTargetPosition(armAnglePosition);
+            }
+
 
 
             telemetry.addData("Open Claw = ", "A");
@@ -79,6 +117,7 @@ public class RRMechOpsTesting extends LinearOpMode {
             telemetry.addData("Set Score Specimen = ", "DPAD_UP");
             telemetry.addData("Score Specimen = ", "DPAD_DOWN");
             telemetry.addData("Grab Specimen = ", "DPAD_RIGHT");
+            telemetry.addData("Arm Angle Position = ", armAnglePosition);
             telemetry.addData("Right Front Encoder = ", robot.motorRF.getCurrentPosition());
             telemetry.addData("Right Rear Encoder = ", robot.motorRR.getCurrentPosition());
             telemetry.addData("Left Front Encoder = ", robot.motorLF.getCurrentPosition());
@@ -87,4 +126,27 @@ public class RRMechOpsTesting extends LinearOpMode {
             telemetry.update();
         }
     }
+
+    public void climb(){
+        robot.servoIntakeAngle.setPosition(robot.INTAKE_ANGLE_GRAB_SAMPLE);
+        robot.motorArmAngle.setPower(1);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_GRAB_BAR);
+        sleep(1500);
+        robot.motorRR.setPower(1);
+        robot.motorLR.setPower(1);
+        robot.motorLF.setPower(1);
+        robot.motorRF.setPower(1);
+        sleep(500);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_GRAB_SPECIMEN);
+        sleep(1500);
+        halt();
+    }
+
+    public void halt(){
+        robot.motorRR.setPower(0);
+        robot.motorLR.setPower(0);
+        robot.motorLF.setPower(0);
+        robot.motorRF.setPower(0);
+    }
+
 }
