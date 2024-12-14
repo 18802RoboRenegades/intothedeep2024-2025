@@ -51,9 +51,9 @@ public class __MecanumWheelDrive__ extends LinearOpMode
     private Servo servoTest;
     private final boolean pad2input = true;
 
-    private double DriveSpeed = 1;
-    private double TurnSpeed = 1;
-    private double StrafeSpeed = 1;
+    private double DriveSpeed = 0.5;
+    private double TurnSpeed = 0.5;
+    private double StrafeSpeed = 0.5;
     private boolean armAngleDrop = false;
     private ElapsedTime dropTime = new ElapsedTime();
     private ElapsedTime buttonPressTime = new ElapsedTime();
@@ -233,7 +233,7 @@ public class __MecanumWheelDrive__ extends LinearOpMode
         robot.motorLF.setPower(1);
         robot.motorRF.setPower(1);
         sleep(500);
-        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_GRAB_SPECIMEN);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_CLIMB);
         sleep(1500);
         halt();
     }

@@ -113,18 +113,19 @@ public class RRBaseAuto extends LinearOpMode {
 
 
         // make sure the bot has a good grip on the pixels
-        Pose2d specimenScoringPrepPosition = new Pose2d(26,0,0);
-        Pose2d specimenScoringPosition = new Pose2d(22, -2, 0);
-        Pose2d midwayPose1 = new Pose2d(23,-28,0);
-        Pose2d midwayPose2 = new Pose2d(55,-25,0);
-        Pose2d midwayPose3 = new Pose2d(20,-4,Math.toRadians(0));
+        Pose2d specimenScoringPrepPosition = new Pose2d(26,8,0);
+        Pose2d specimenScoringPosition = new Pose2d(22, 6, 0);
+        Pose2d midwayPose1 = new Pose2d(10,-33,Math.toRadians(180));
+        Pose2d midwayPose2 = new Pose2d(55,-33,Math.toRadians(180));
+        Pose2d midwayPose3 = new Pose2d(10,6,Math.toRadians(20));
         Pose2d midwayPose4 = new Pose2d(23,-30,0);
-        Pose2d coloredSample1 = new Pose2d(60,-40,0);
+        Pose2d coloredSample1 = new Pose2d(60,-35,Math.toRadians(180));
         Pose2d coloredSample2 = new Pose2d(60,-55,0);
         Pose2d coloredSample3 = new Pose2d(0,0,0);
-        Pose2d observationZonePosition = new Pose2d(5,-30,0);
-        Pose2d specimenPickupPrepPosition = new Pose2d(25,-30,Math.toRadians(140));
-        Pose2d specimenPickupPosition = new Pose2d(-1,-25,Math.toRadians(180));
+        Pose2d observationZonePosition = new Pose2d(5,-30,Math.toRadians(180));
+        Pose2d specimenPickupPrepPosition = new Pose2d(15,-35,Math.toRadians(180));
+        Pose2d specimenPickupPosition = new Pose2d(10,-35,Math.toRadians(180));
+        Pose2d specimenPickupPositionFinal = new Pose2d(2,-35,Math.toRadians(180));
         Pose2d dropYellowPixelPose = new Pose2d(0, 0, 0);
         Pose2d parkPose = new Pose2d(0,-55, 0);
 
@@ -167,16 +168,28 @@ public class RRBaseAuto extends LinearOpMode {
                         .strafeToLinearHeading(specimenPickupPosition.position, specimenPickupPosition.heading)
                         .build());
 
+        safeWaitSeconds(0.5);
+        Actions.runBlocking(
+                thisDrive.actionBuilder(thisDrive.pose)
+                        .strafeToLinearHeading(specimenPickupPositionFinal.position, specimenPickupPositionFinal.heading)
+                        .build());
+
         safeWaitSeconds(0.2);
         mechOps.closeClaw();
-        safeWaitSeconds(0.2);
-        if(opModeIsActive()) mechOps.setScoreSpecimen();
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_REMOVE_SPECIMEN);
 
         //TODO : Code to intake pixel from stack
         //Move robot to midwayPose2 and to dropYellowPixelPose
         Actions.runBlocking(
                 thisDrive.actionBuilder(thisDrive.pose)
                         .strafeToLinearHeading(midwayPose3.position, midwayPose3.heading)
+                        .build());
+
+        if(opModeIsActive()) mechOps.setScoreSpecimen();
+        safeWaitSeconds(1);
+
+        Actions.runBlocking(
+                thisDrive.actionBuilder(thisDrive.pose)
                         .strafeToLinearHeading(specimenScoringPrepPosition.position, specimenScoringPrepPosition.heading)
                         .build());
 
