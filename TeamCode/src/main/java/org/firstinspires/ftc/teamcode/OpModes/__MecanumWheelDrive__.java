@@ -191,10 +191,10 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             // angle of intake
             if((gamepad1.dpad_up || gamepad2.dpad_up) && buttonPressTime.time() > 0.1) {
                 buttonPressTime.reset();
-                intakeAngle = intakeAngle - 0.03;
+                intakeAngle = intakeAngle + 0.03;
             } else if ((gamepad1.dpad_down || gamepad2.dpad_down) && buttonPressTime.time() > 0.1) {
                 buttonPressTime.reset();
-                intakeAngle = intakeAngle + 0.03;
+                intakeAngle = intakeAngle - 0.03;
             }
 
             // apply settings to motors and servos

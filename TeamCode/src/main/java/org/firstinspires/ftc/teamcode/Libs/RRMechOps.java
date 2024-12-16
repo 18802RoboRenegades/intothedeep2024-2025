@@ -50,7 +50,7 @@ public class RRMechOps{
 
     public void scoreSpecimen(){
         robot.motorArmAngle.setPower(1);
-        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_SCORE_SPECIMEN + 100);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_SCORE_SPECIMEN + 300);
     }
 
     public void setGrabSpecimen(){

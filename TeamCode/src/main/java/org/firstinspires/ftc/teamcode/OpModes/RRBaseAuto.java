@@ -113,7 +113,7 @@ public class RRBaseAuto extends LinearOpMode {
 
 
         // make sure the bot has a good grip on the pixels
-        Pose2d specimenScoringPrepPosition = new Pose2d(26,8,0);
+        Pose2d specimenScoringPrepPosition = new Pose2d(29,8,0);
         Pose2d specimenScoringPosition = new Pose2d(22, 6, 0);
         Pose2d midwayPose1 = new Pose2d(10,-33,Math.toRadians(180));
         Pose2d midwayPose2 = new Pose2d(55,-33,Math.toRadians(180));
