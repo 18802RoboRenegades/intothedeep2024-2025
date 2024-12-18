@@ -49,6 +49,7 @@ public class RRMechOpsTesting extends LinearOpMode {
     private RRMechOps mechOps;
 
     private final ElapsedTime runtime = new ElapsedTime();
+    private DriveMecanumFTCLib drive;
 
 
 
@@ -56,8 +57,10 @@ public class RRMechOpsTesting extends LinearOpMode {
     public void runOpMode() {
         robot.init(hardwareMap, true);
         mechOps = new RRMechOps(robot, opMode);
+        drive = new DriveMecanumFTCLib(robot, opMode);
 
         int armAnglePosition = 0;
+        double stickDrive, turn, strafe, DriveSpeed = 0.8, TurnSpeed = 0.8, StrafeSpeed = 0.8;
 
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -70,8 +73,17 @@ public class RRMechOpsTesting extends LinearOpMode {
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
 
-            if(gamepad1.a) mechOps.openClaw();
-            if(gamepad1.b) mechOps.closeClaw();
+            stickDrive = this.gamepad1.left_stick_y * DriveSpeed;
+            turn = -this.gamepad1.right_stick_x * TurnSpeed;
+            strafe = -this.gamepad1.left_stick_x  * StrafeSpeed;
+
+            drive.StrafeDrive(stickDrive,  turn, strafe);
+
+
+
+            if(gamepad1.a) mechOps.closeClaw();
+            if(gamepad1.b) mechOps.openClaw();
+            if(gamepad1.x) mechOps.removeSpecimen();
             if(gamepad1.dpad_up) {
                 mechOps.setScoreSpecimen();
                 armAnglePosition = robot.motorArmAngle.getTargetPosition();
@@ -94,22 +106,31 @@ public class RRMechOpsTesting extends LinearOpMode {
             }
 
             if(gamepad1.left_stick_button) climb();
-            if(gamepad1.right_stick_button) halt();
+//            if(gamepad1.right_stick_button) halt();
 
-            if(gamepad1.right_stick_y > 0){
-                armAnglePosition = armAnglePosition - ((int) gamepad1.right_stick_y);
+            if(gamepad1.right_trigger > 0){
+                armAnglePosition = armAnglePosition - ((int) gamepad1.right_trigger);
                 if(armAnglePosition < 0) armAnglePosition =0;
                 if(armAnglePosition > robot.ARM_ANGLE_SCORE_HIGH_BASKET) armAnglePosition = robot.ARM_LENGTH_SCORE_HIGH_BASKET;
 
                 robot.motorArmAngle.setTargetPosition(armAnglePosition);
-            } else if(gamepad1.right_stick_y < 0){
-                armAnglePosition = armAnglePosition + ((int) gamepad1.right_stick_y);
+            } else if(gamepad1.left_trigger < 0){
+                armAnglePosition = armAnglePosition + ((int) gamepad1.left_trigger);
                 if(armAnglePosition <0) armAnglePosition =0;
                 if(armAnglePosition > robot.ARM_ANGLE_SCORE_HIGH_BASKET) armAnglePosition = robot.ARM_LENGTH_SCORE_HIGH_BASKET;
 
                 robot.motorArmAngle.setTargetPosition(armAnglePosition);
             }
 
+            if(gamepad2.dpad_up){
+                mechOps.setScoreSpecimen();
+            }
+            if(gamepad2.dpad_down){
+                mechOps.resetArm();
+            }
+            if(gamepad2.dpad_left){
+                mechOps.scoreSpecimen();
+            }
 
 
             telemetry.addData("Open Claw = ", "A");

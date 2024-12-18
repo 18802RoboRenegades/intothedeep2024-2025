@@ -137,7 +137,7 @@ public class CompetitionTeleOp extends LinearOpMode
             //pick up sample
             if(gamepad1.dpad_right){
                 armAnglePower = 1;
-                armAngle = robot.ARM_ANGLE_SCORE_SPECIMEN + 500;
+                armAngle = robot.ARM_ANGLE_PREP_SCORE_SPECIMEN + 500;
             }
 
             if(gamepad1.dpad_down) {
@@ -153,16 +153,16 @@ public class CompetitionTeleOp extends LinearOpMode
             }
             if(gamepad1.dpad_up) {
                 armAnglePower = 1;
-                intakeAngle = robot.INTAKE_ANGLE_SCORE_SPECIMEN;
-                armAngle = robot.ARM_ANGLE_SCORE_SPECIMEN;
+                intakeAngle = robot.INTAKE_ANGLE_PREP_SCORE_SPECIMEN;
+                armAngle = robot.ARM_ANGLE_PREP_SCORE_SPECIMEN;
                 armLength = robot.ARM_LENGTH_SCORE_SPECIMEN;
                 intakeAngle = robot.INTAKE_ANGLE_GRAB_SPECIMEN;
             }
 
             //score specimen
             if(gamepad1.dpad_left){
-                armAngle = robot.ARM_ANGLE_SCORE_SPECIMEN;
-                intakeAngle = robot.INTAKE_ANGLE_SCORE_SPECIMEN;
+                armAngle = robot.ARM_ANGLE_PREP_SCORE_SPECIMEN;
+                intakeAngle = robot.INTAKE_ANGLE_PREP_SCORE_SPECIMEN;
                 armLength = robot.ARM_LENGTH_SCORE_SPECIMEN;
             }
             // dont mess with unless you know what you are doing

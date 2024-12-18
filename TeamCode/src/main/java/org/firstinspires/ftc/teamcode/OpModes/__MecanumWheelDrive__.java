@@ -129,23 +129,23 @@ public class __MecanumWheelDrive__ extends LinearOpMode
 
             //pick up sample
             if(gamepad1.dpad_right){
-                intakeAngle = robot.INTAKE_ANGLE_GRAB_SAMPLE;
+                intakeAngle = robot.INTAKE_ANGLE_PREP_SCORE_SPECIMEN;
             }
             //score specimen
             if(gamepad1.dpad_left){
-                armAngle = robot.ARM_ANGLE_SCORE_SPECIMEN;
-                intakeAngle = robot.INTAKE_ANGLE_SCORE_SPECIMEN;
+                armAngle = robot.ARM_ANGLE_PREP_SCORE_SPECIMEN;
+                intakeAngle = robot.INTAKE_ANGLE_PREP_SCORE_SPECIMEN;
                 armControl = robot.ARM_LENGTH_SCORE_SPECIMEN;
             }
             // dont mess with unless you know what you are doing
             if(gamepad1.y || gamepad2.y){
                 armAngleDrop = false;
-                armAnglePower = 0.5;
+                armAnglePower = 0.75;
                 armAngle = robot.ARM_ANGLE_SCORE_HIGH_BASKET;
                 armControl = robot.ARM_LENGTH_SCORE_HIGH_BASKET;
             } else if (gamepad1.x || gamepad2.x){
                 grabSpecimen();
-                armAnglePower = 0.25;
+                armAnglePower = 0.45;
 //                armAngleDrop = true;
 //                dropTime.reset();
             }
@@ -158,8 +158,6 @@ public class __MecanumWheelDrive__ extends LinearOpMode
             if(bPressCount > 2){
                 bPressCount = 1;
             }
-
-
 
             if(bPressCount == 1){
                 robot.servoTwist.setPosition(robot.INTAKE_TWIST_INIT);

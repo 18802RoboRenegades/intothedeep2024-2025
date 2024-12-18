@@ -44,13 +44,16 @@ public class RRMechOps{
         robot.motorArmLength.setPower(1);
         robot.servoTwist.setPosition(robot.INTAKE_TWIST_INIT);
         robot.servoIntakeAngle.setPosition(robot.INTAKE_ANGLE_SCORE_SPECIMEN);
-        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_SCORE_SPECIMEN);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_PREP_SCORE_SPECIMEN);
         robot.motorArmLength.setTargetPosition(robot.ARM_LENGTH_SCORE_SPECIMEN);
     }
 
     public void scoreSpecimen(){
         robot.motorArmAngle.setPower(1);
-        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_SCORE_SPECIMEN + 300);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_SCORE_SPECIMEN);
+        robot.servoIntakeAngle.setPosition(robot.INTAKE_ANGLE_SCORE_SPECIMEN);
+        opMode.sleep(500);
+        robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
     }
 
     public void setGrabSpecimen(){
@@ -62,10 +65,17 @@ public class RRMechOps{
         robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
     }
 
+    public void removeSpecimen(){
+        robot.motorArmAngle.setPower(1);
+        robot.servoIntake.setPosition(robot.INTAKE_CLAW_CLOSE);
+        opMode.sleep(300);
+        robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_REMOVE_SPECIMEN);
+    }
+
     public void resetArm(){
         robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
         robot.servoIntakeAngle.setPosition(robot.INTAKE_ANGLE_GRAB_SPECIMEN);
-        robot.motorArmAngle.setPower(0.2);
+        robot.motorArmAngle.setPower(0.4);
         robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_GRAB_SPECIMEN);
         robot.motorArmLength.setPower(1);
         robot.motorArmLength.setTargetPosition(robot.ARM_LENGTH_RESET);
