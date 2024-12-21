@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.Libs.GoBildaPinpointDriverRR;
+
 
 public class HWProfile {
 
@@ -35,25 +37,29 @@ public class HWProfile {
     public final double INTAKE_TWIST_90 = 0.82;
 
     // Intake angle servo constants
-    public final double INTAKE_ANGLE_INIT = 0.60;
-    public final double INTAKE_ANGLE_GRAB_SPECIMEN = 0.55;
-    public final double INTAKE_ANGLE_GRAB_SAMPLE = 0;
-    public final double INTAKE_ANGLE_PREP_SCORE_SPECIMEN = 0.05;
-    public final double INTAKE_ANGLE_SCORE_SPECIMEN = 0.4;
+    public final double INTAKE_ANGLE_INIT = 0.40;
+    public final double INTAKE_ANGLE_GRAB_SPECIMEN = 0.4;
+    public final double INTAKE_ANGLE_GRAB_SAMPLE = 0.9;
+    public final double INTAKE_ANGLE_PREP_SCORE_SPECIMEN = .5;
+    public final double INTAKE_ANGLE_SCORE_SPECIMEN = .55;
     public final double INTAKE_ANGLE_SCORE_SAMPLE = 0.5;
 
     // Arm Angle motor constants
     public final int ARM_ANGLE_GRAB_SPECIMEN = -140;
-    public final int ARM_ANGLE_PREP_SCORE_SPECIMEN = -1000;
-    public final int ARM_ANGLE_SCORE_SPECIMEN = -700;
+    public final int ARM_ANGLE_PREP_SCORE_SPECIMEN = -1050;
+    public final int ARM_ANGLE_SCORE_SPECIMEN = -850;
     public final int ARM_ANGLE_REMOVE_SPECIMEN = -400;
     public final int ARM_ANGLE_SCORE_HIGH_BASKET = -1310;
     public final int ARM_ANGLE_GRAB_BAR = -2140;
+    public final int ARM_ANGLE_GRAB_SAMPLE = -500;
     public final int ARM_ANGLE_CLIMB = 50;
+    public final int ARM_ANGLE_MAX_LENGTH = -400;
+    public final int ARM_ANGLE_RESET = -200;
 
     public final int ARM_LENGTH_RESET = 0;
     public final int ARM_LENGTH_SAFE = 400;
     public final int ARM_LENGTH_SCORE_SPECIMEN = 400;
+    public final int ARM_LENGTH_GRAB_SAMPLE = 800;
     public final int ARM_LENGTH_SCORE_HIGH_BASKET = 1800;
 
     /*
@@ -72,6 +78,8 @@ public class HWProfile {
     public Servo servoIntakeAngle;
     public Servo servoIntake;
     public Servo servoTwist;
+
+    public GoBildaPinpointDriverRR pinpoint; // Declare OpMode member for the Odometry Computer
 
 //    public MecanumDrive mecanum = null;
 
@@ -142,6 +150,10 @@ public class HWProfile {
         servoIntakeAngle = ahwMap.get(Servo.class,"servoIntakeAngle");
         servoTwist = ahwMap.get(Servo.class,"servoTwist");
         servoIntake =ahwMap.get(Servo.class,"servoIntake");
+
+        pinpoint = hwMap.get(GoBildaPinpointDriverRR.class,"pinpoint");
+        pinpoint.resetPosAndIMU();
+        pinpoint.recalibrateIMU();
 
     }
 }
