@@ -60,9 +60,9 @@ public class RRMechOps{
     }
 
     public void scoreSpecimen(){
+        robot.servoIntakeAngle.setPosition(robot.INTAKE_ANGLE_SCORE_SPECIMEN);
         robot.motorArmAngle.setPower(1);
         robot.motorArmAngle.setTargetPosition(robot.ARM_ANGLE_SCORE_SPECIMEN);
-        robot.servoIntakeAngle.setPosition(robot.INTAKE_ANGLE_SCORE_SPECIMEN);
         opMode.sleep(500);
         robot.servoIntake.setPosition(robot.INTAKE_CLAW_OPEN);
     }
