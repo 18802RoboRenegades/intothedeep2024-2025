@@ -41,15 +41,15 @@ public class HWProfile {
     public final double INTAKE_ANGLE_GRAB_SPECIMEN = 0.20;
     public final double INTAKE_ANGLE_GRAB_SAMPLE = 0.9;
     public final double INTAKE_ANGLE_PREP_SCORE_SPECIMEN = 0.55;
-    public final double INTAKE_ANGLE_SCORE_SPECIMEN = 0.6;
+    public final double INTAKE_ANGLE_SCORE_SPECIMEN = 0.4;
     public final double INTAKE_ANGLE_SCORE_SAMPLE = 0.5;
 
     // Arm Angle motor constants
-    public final int ARM_ANGLE_GRAB_SPECIMEN = -140;
-    public final int ARM_ANGLE_PREP_SCORE_SPECIMEN = -1100;
-    public final int ARM_ANGLE_SCORE_SPECIMEN = -850;
+    public final int ARM_ANGLE_GRAB_SPECIMEN = -280;
+    public final int ARM_ANGLE_PREP_SCORE_SPECIMEN = -1150;
+    public final int ARM_ANGLE_SCORE_SPECIMEN = -800;
     public final int ARM_ANGLE_REMOVE_SPECIMEN = -400;
-    public final int ARM_ANGLE_SCORE_HIGH_BASKET = -1310;
+    public final int ARM_ANGLE_SCORE_HIGH_BASKET = -1800;
     public final int ARM_ANGLE_GRAB_BAR = -2140;
     public final int ARM_ANGLE_GRAB_SAMPLE = -500;
     public final int ARM_ANGLE_CLIMB = 50;
@@ -57,10 +57,10 @@ public class HWProfile {
     public final int ARM_ANGLE_RESET = -200;
 
     public final int ARM_LENGTH_RESET = 0;
-    public final int ARM_LENGTH_SAFE = 400;
+    public final int ARM_LENGTH_SAFE = 2000;
     public final int ARM_LENGTH_SCORE_SPECIMEN = 600;
     public final int ARM_LENGTH_GRAB_SAMPLE = 800;
-    public final int ARM_LENGTH_SCORE_HIGH_BASKET = 1800;
+    public final int ARM_LENGTH_SCORE_HIGH_BASKET = 3800;
 
     /*
      * Hardware devices

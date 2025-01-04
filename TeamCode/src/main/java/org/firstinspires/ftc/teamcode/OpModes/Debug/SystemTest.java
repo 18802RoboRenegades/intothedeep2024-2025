@@ -32,6 +32,7 @@ package org.firstinspires.ftc.teamcode.OpModes.Debug;
 
 import android.icu.lang.UCharacter;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
@@ -41,7 +42,7 @@ import org.firstinspires.ftc.teamcode.Hardware.HWProfile;
 
 
 @TeleOp(name="System Test", group="Test Mode")
-
+@Disabled
 public class SystemTest extends LinearOpMode {
 
     private final static HWProfile robot = new HWProfile();

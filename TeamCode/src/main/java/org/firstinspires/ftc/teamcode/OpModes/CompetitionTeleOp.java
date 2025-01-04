@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -34,7 +35,7 @@ import org.firstinspires.ftc.teamcode.Libs.RRMechOps;
 
  **/
 @TeleOp(name="TeleOp - Experimental", group="Competition")
-
+@Disabled
  /**
 
  This is the DriveOpMode. This is the OpMode that is used for the driver-controlled portion, and
@@ -86,6 +87,7 @@ public class CompetitionTeleOp extends LinearOpMode
         double aPressCount = 1;
         boolean clawOpen = true;
         ElapsedTime aPressTime = new ElapsedTime();
+        boolean wristRotate = false;
 
         //        double armUpDown;
         int armPosition = 0;
@@ -181,6 +183,17 @@ public class CompetitionTeleOp extends LinearOpMode
             if((gamepad1.a || gamepad2.a) && (aPressTime.time() > 0.2)) {
                 aPressCount = aPressCount + 1;
                 aPressTime.reset();
+            }
+
+            if((gamepad1.b || gamepad2.b) && (buttonPressTime.time() > 0.2)) {
+                if(wristRotate){
+                    robot.servoTwist.setPosition(robot.INTAKE_TWIST_90);
+                    wristRotate = false;
+                } else {
+                    robot.servoTwist.setPosition(robot.INTAKE_TWIST_INIT);
+                    wristRotate = true;
+                }
+                buttonPressTime.reset();
             }
 
             if(aPressCount > 2){

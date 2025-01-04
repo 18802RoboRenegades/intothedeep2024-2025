@@ -131,6 +131,25 @@ public class RRMechOps{
         robot.motorRF.setPower(0);
     }
 
+    public void initArmAngle(){
+        boolean armNotSet = true;
+        int armResetPosition = 0;
+
+        robot.motorArmAngle.setPower(1);
+        robot.motorArmAngle.setTargetPosition(0);
+        while(armNotSet){
+            armResetPosition = armResetPosition  + 1;
+            robot.motorArmAngle.setTargetPosition(armResetPosition);
+            if(robot.motorArmAngle.getCurrent(CurrentUnit.AMPS) > 2){
+                armNotSet = false;
+                robot.motorArmAngle.setPower(0);
+                robot.motorArmAngle.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                robot.motorArmAngle.setTargetPosition(0);
+                robot.motorArmAngle.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+                robot.motorArmAngle.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
+            }
+        }
+    }
     public void tensionRetractionString(){
         boolean notRetracted = true;
         int retractionPosition = 0;

@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.OpModes;
 
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DistanceSensor;
@@ -33,7 +34,7 @@ import org.firstinspires.ftc.teamcode.Hardware.HWProfile;
 
  **/
 @TeleOp(name="RR_TeleOP", group="Competition")
-
+@Disabled
  /**
 
  This is the DriveOpMode. This is the OpMode that is used for the driver-controlled portion, and
